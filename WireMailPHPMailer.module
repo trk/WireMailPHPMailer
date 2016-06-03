@@ -25,7 +25,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule, 
         return array(
             'title' => 'WireMailPHPMailer',
             'summary' => "This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.",
-            'version' => 1,
+            'version' => 2,
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), http://altivebir.com.tr',
             'icon' => 'envelope-o',
             'href' => 'https://github.com/trk/WireMailPHPMailer'
@@ -399,12 +399,19 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule, 
      */
     public function ___send() {
 
-        if(is_array($this->to)) foreach($this->to as $to) $this->To = $to;
-        if(is_array($this->toName)) foreach($this->toName as $toName) $this->ToName = $toName;
+        $toIsArray = false;
+        if(is_array($this->to)) {
+            foreach($this->to as $to) {
+                $toIsArray = true;
+                $this->PHPMailer->AddAddress($to);
+            }
+        }
+
+        if($this->replyTo) $this->PHPMailer->AddReplyTo($this->replyTo);
         if($this->subject != "") $this->Subject = $this->subject;
 
         if($this->To != "" && $this->Subject != "") {
-            $this->PHPMailer->addAddress($this->To, $this->ToName);
+            if(!$toIsArray) $this->PHPMailer->addAddress($this->To, $this->ToName);
             $this->PHPMailer->Subject = $this->Subject;
 
             if($this->from != "") $this->PHPMailer->From = $this->from;
@@ -412,8 +419,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule, 
             if($this->body != "") $this->PHPMailer->Body = $this->body;
             if($this->bodyHTML != "") $this->PHPMailer->msgHTML($this->bodyHTML);
         }
-
-        // echo "TO => ", $this->To, " ToName => ", $this->ToName, " Subject => {$this->subject} => ", $this->Subject;
 
         if (!$this->PHPMailer->send()) {
             $this->error(__("Mailer Error : ") . $this->PHPMailer->ErrorInfo, Notice::log);
