@@ -14,7 +14,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule, 
     /**
      * PHPMailer Version
      */
-    const PHPMailer_VERSION = "5.2.16";
+    const PHPMailer_VERSION = "5.2.19";
 
     /**
      * PHPMailer instance
@@ -25,7 +25,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule, 
         return array(
             'title' => 'WireMailPHPMailer',
             'summary' => "This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.",
-            'version' => 3,
+            'version' => 4,
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), http://altivebir.com.tr',
             'icon' => 'envelope-o',
             'href' => 'https://github.com/trk/WireMailPHPMailer'
@@ -44,8 +44,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule, 
             'ErrorInfo' => '',
             // The Sender email (Return-Path) of the message. If not empty, will be sent via -f to sendmail or as 'MAIL FROM' in smtp mode.
             'Sender' => '',
-            // The Subject of the message.
-            'Subject' => '',
             // The Subject of the message.
             'Body' => '',
             // The plain-text message body.
@@ -83,6 +81,8 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule, 
             'To' => 'root@localhost',
             // The To name of the message.
             'ToName' => 'Root User',
+            // The Subject of the message.
+            'Subject' => '',
             // Which method to use to send mail.
             // Options: "mail", "sendmail", or "smtp".
             'Mailer' => 'smtp',
@@ -254,12 +254,10 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule, 
      * @var string
      * @return $this
      */
-    /*
-    public function Subject($Subject="") {
+    public function addSubject($Subject="") {
         if($Subject != "") $this->PHPMailer->Subject = $Subject;
         return $this;
     }
-    */
 
     /**
      * An HTML or plain text message body.
@@ -420,11 +418,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule, 
             if($this->bodyHTML != "") $this->PHPMailer->msgHTML($this->bodyHTML);
         }
 
-        if (!$this->PHPMailer->send()) {
-            $this->error(__("Mailer Error : ") . $this->PHPMailer->ErrorInfo, Notice::log);
-        } else {
-            $this->message(__("Message sent !"), Notice::log);
-        }
+        if (!$this->PHPMailer->send()) $this->error(__("Mailer Error : ") . $this->PHPMailer->ErrorInfo, Notice::log);
     }
 
     /**
