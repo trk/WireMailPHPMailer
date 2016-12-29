@@ -4,6 +4,10 @@
 
 ### Change Logs
 
+**v.0.0.5**
+
+- PHPMailer updated to PHPMailer 5.2.21
+
 **v.0.0.4**
 
 - PHPMailer updated to PHPMailer 5.2.19
