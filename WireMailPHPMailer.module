@@ -47,7 +47,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     public static function getModuleInfo() {
         return array(
             "title" => "WireMailPHPMailer",
-            "version" => 102,
+            "version" => 103,
             "summary" => __("This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire."),
             "href" => "https://github.com/trk/WirePHPMailer",
             "author" => "İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com",
@@ -293,6 +293,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
         if($this->body) {
             $this->PHPMailer->AltBody = $this->body;
         }
+        bd($this->mail);
         $this->PHPMailer->send();
     }
 }

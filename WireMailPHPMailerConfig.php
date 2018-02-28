@@ -17,7 +17,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Priority"),
                 "description" => __("When null, the header is not set at all."),
                 "required" => true,
-                "default" => "null",
+                "value" => "null",
                 "options" => array(
                     "null" => __("Default"),
                     1 => __("High"),
@@ -31,7 +31,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "type" => "InputfieldText",
                 "label" => __("Character set"),
                 "description" => __("The character set of the message."),
-                "default" => "utf-8",
+                "value" => "utf-8",
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 25
             ),
@@ -40,7 +40,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Content-type"),
                 "description" => __("The MIME Content-type of the message."),
                 "required" => true,
-                "default" => "text/html",
+                "value" => "text/html",
                 "options" => array(
                     "text/plain" => "text/plain",
                     "text/html" => "text/html",
@@ -54,7 +54,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Encoding"),
                 "description" => __("The message encoding."),
                 "required" => true,
-                "default" => "8bit",
+                "value" => "8bit",
                 "options" => array(
                     "8bit" => "8bit",
                     "7bit" => "7bit",
@@ -69,7 +69,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "type" => "InputfieldText",
                 "label" => __("Error Info"),
                 "description" => __("Holds the most recent mailer error message."),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 100
             ),
@@ -78,14 +78,14 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Sender"),
                 "description" => __("The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to."),
                 "notes" => __("If not empty, will be passed via `-f` to sendmail or as the `MAIL FROM` value over SMTP."),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             ),
             "FromName" => array(
                 "type" => "InputfieldText",
                 "label" => __("From Name"),
                 "description" => __("The From name of the message."),
-                "default" => "Root User",
+                "value" => "Root User",
                 "placeholder" => __("Site administrator"),
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 50
@@ -94,7 +94,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "type" => "InputfieldText",
                 "label" => __("From"),
                 "description" => __("The From email address for the message."),
-                "default" => "root@localhost",
+                "value" => "root@localhost",
                 "placeholder" => "email@domain.ltd",
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 50
@@ -103,7 +103,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "type" => "InputfieldText",
                 "label" => __("Subject"),
                 "description" => __("The Subject of the message."),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             ),
             "Body" => array(
@@ -111,7 +111,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Body"),
                 "description" => __("An HTML or plain text message body."),
                 "notes" => __("If HTML then call `isHTML(true)`"),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             ),
             "AltBody" => array(
@@ -119,7 +119,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Alt Body"),
                 "description" => __("The plain-text message body. This body can be read by mail clients that do not have HTML email capability such as mutt & Eudora."),
                 "notes" => __("Clients that can read `HTML` will view the normal `Body`."),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             ),
             "Ical" => array(
@@ -127,7 +127,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("iCal"),
                 "description" => __("An iCal message part body."),
                 "notes" => __("Only supported in simple alt or alt_inline message types To generate iCal event structures, use classes like EasyPeasyICS or iCalcreator. [see](http://sprain.ch/blog/downloads/php-class-easypeasyics-create-ical-files-with-php/), [see](http://kigkonsult.se/iCalcreator/)"),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             ),
             "WordWrap" => array(
@@ -135,7 +135,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("WordWrap"),
                 "description" => __("Word-wrap the message body to this number of chars."),
                 "notes" => __("Set to 0 to not wrap. A useful value here is 78, for [RFC2822](https://www.ietf.org/rfc/rfc2822.txt) section 2.1.1 compliance."),
-                "default" => "0",
+                "value" => "0",
                 "inputType" => "number",
                 "min" => 0,
                 "collapsed" => Inputfield::collapsedNever
@@ -145,7 +145,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Mailer"),
                 "description" => __("Which method to use to send mail."),
                 "required" => true,
-                "default" => "mail",
+                "value" => "mail",
                 "options" => array(
                     "mail" => "mail",
                     "sendmail" => "sendmail",
@@ -163,7 +163,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "type" => "InputfieldText",
                         "label" => __("Sendmail"),
                         "description" => __("The path to the sendmail program."),
-                        "default" => "/usr/sbin/sendmail",
+                        "value" => "/usr/sbin/sendmail",
                         "collapsed" => Inputfield::collapsedNever
                     ),
                     "UseSendmailOptions" => array(
@@ -171,7 +171,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "label" => __("Use Sendmail Options"),
                         "description" => __("Whether `mail()` uses a fully `sendmail-compatible` MTA."),
                         "notes" => __("One which supports sendmail's `-oi -f` options."),
-                        "default" => true,
+                        "value" => true,
                         "collapsed" => Inputfield::collapsedNever
                     )
                 )
@@ -180,7 +180,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "type" => "InputfieldCheckbox",
                 "label" => __("Confirm Reading To"),
                 "description" => __("The email address that a reading confirmation should be sent to, also known as read receipt."),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             ),
             "Hostname" => array(
@@ -188,7 +188,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Hostname"),
                 "description" => __("The hostname to use in the `Message-ID` header and as default `HELO` string."),
                 "notes" => __('If empty, PHPMailer attempts to find one with, in order, `$_SERVER["SERVER_NAME"]`, `gethostname()`, `php_uname("n")`, or the value `localhost.localdomain`'),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             ),
             "MessageID" => array(
@@ -196,7 +196,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Message ID"),
                 "description" => __("An ID to be used in the `Message-ID` header."),
                 "notes" => __("If empty, a unique id will be generated. You can set your own, but it must be in the format `<id@domain>`, as defined in RFC5322 section 3.6.4 or it will be ignored. [see](https://tools.ietf.org/html/rfc5322#section-3.6.4)"),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             ),
             "MessageDate" => array(
@@ -204,7 +204,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Message Date"),
                 "description" => __("The message Date to be used in the Date header."),
                 "notes" => __('If empty, the current date will be added.'),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             ),
             "SMTP" => array(
@@ -220,7 +220,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "notes" => __('Either a single hostname or multiple semicolon-delimited hostnames.
                                 You can also specify a different port for each host by using this format: [hostname:port] (e.g. "smtp1.example.com:25;smtp2.example.com").
                                 You can also specify encryption type, for example: (e.g. "tls://smtp1.example.com:587;ssl://smtp2.example.com:465"). Hosts will be tried in order.'),
-                        "default" => "localhost",
+                        "value" => "localhost",
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
                     ),
@@ -229,7 +229,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "label" => __("Helo"),
                         "description" => __("The SMTP HELO of the message."),
                         "notes" => __('Default is `$Hostname`. If `$Hostname` is empty, PHPMailer attempts to find one with the same method described above for `$Hostname`.'),
-                        "default" => "",
+                        "value" => "",
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
                     ),
@@ -238,7 +238,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "label" => __("SMTP Secure"),
                         "description" => __("What kind of encryption to use on the SMTP connection."),
                         "required" => true,
-                        "default" => "tls",
+                        "value" => "tls",
                         "options" => array(
                             "" => __("Default"),
                             "ssl" => __("SSL"),
@@ -253,7 +253,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "description" => __("The default SMTP server port."),
                         "inputType" => "number",
                         "min" => 0,
-                        "default" => 587,
+                        "value" => 587,
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
                     ),
@@ -261,7 +261,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "type" => "InputfieldCheckbox",
                         "label" => __("SMTP Auto TLS"),
                         "description" => __("The email address that a reading confirmation should be sent to, also known as read receipt."),
-                        "default" => true,
+                        "value" => true,
                         "collapsed" => Inputfield::collapsedNever
                     ),
                     "SMTPAuth" => array(
@@ -269,14 +269,14 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "label" => __("SMTP Auth"),
                         "description" => __("Whether to use SMTP authentication."),
                         "notes" => __("Uses the Username and Password properties."),
-                        "default" => false,
+                        "value" => false,
                         "collapsed" => Inputfield::collapsedNever
                     ),
                     "Username" => array(
                         "type" => "text",
                         "label" => __("Username"),
                         "description" => __("SMTP username."),
-                        "default" => "",
+                        "value" => "",
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
                     ),
@@ -287,7 +287,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "attr" => array(
                             "type" => "password"
                         ),
-                        "default" => "",
+                        "value" => "",
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
                     ),
@@ -297,7 +297,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "description" => __("SMTP auth type."),
                         "notes" => __("Options are CRAM-MD5, LOGIN, PLAIN, XOAUTH2, attempted in that order if not specified."),
                         "required" => true,
-                        "default" => "",
+                        "value" => "",
                         "options" => array(
                             "" => __("Default"),
                             "CRAM-MD5" => "CRAM-MD5",
@@ -314,7 +314,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "notes" => __("Default of 5 minutes (300sec) is from RFC2821 section 4.5.3.2."),
                         "inputType" => "number",
                         "min" => 0,
-                        "default" => 300,
+                        "value" => 300,
                         "collapsed" => Inputfield::collapsedNever
                     ),
                     "SMTPDebug" => array(
@@ -323,7 +323,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "description" => __("SMTP class debug output mode."),
                         "notes" => __("Debug output level."),
                         "required" => true,
-                        "default" => "0",
+                        "value" => "0",
                         "options" => array(
                             "0" => __("No output"),
                             "1" => __("Commands"),
@@ -338,7 +338,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "label" => __("Debug output"),
                         "description" => __("How to handle debug output."),
                         "required" => true,
-                        "default" => "html",
+                        "value" => "html",
                         "options" => array(
                             "echo" => __("Output plain-text as-is, appropriate for CLI"),
                             "html" => __("Output escaped, line breaks converted to `<br>`, appropriate for browser output"),
@@ -351,7 +351,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "label" => __("SMTP Keep Alive"),
                         "description" => __("Whether to keep SMTP connection open after each message."),
                         "notes" => __("If this is set to true then to close the connection requires an explicit call to `smtpClose()`."),
-                        "default" => false,
+                        "value" => false,
                         "collapsed" => Inputfield::collapsedNever
                     )
                 )
@@ -361,7 +361,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Single To"),
                 "description" => __("Whether to split multiple to addresses into multiple messages or send them all in one message."),
                 "notes" => __("Only supported in `mail` and `sendmail` transports, not in SMTP."),
-                "default" => false,
+                "value" => false,
                 "collapsed" => Inputfield::collapsedNever
             ),
             "do_verp" => array(
@@ -369,14 +369,14 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("Generate VERP addresses"),
                 "description" => __("Whether to generate VERP addresses on send."),
                 "notes" => __("Only applicable when sending via SMTP. [see](https://en.wikipedia.org/wiki/Variable_envelope_return_path), [see](http://www.postfix.org/VERP_README.html)"),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             ),
             "AllowEmpty" => array(
                 "type" => "InputfieldCheckbox",
                 "label" => __("Allow Empty"),
                 "description" => __("Whether to allow sending messages with an empty body."),
-                "default" => false,
+                "value" => false,
                 "collapsed" => Inputfield::collapsedNever
             ),
             "DKIM" => array(
@@ -387,7 +387,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                     "DKIM_selector" => array(
                         "type" => "InputfieldText",
                         "label" => __("DKIM selector"),
-                        "default" => "",
+                        "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
                     ),
@@ -395,7 +395,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "type" => "InputfieldText",
                         "label" => __("DKIM identity"),
                         "description" => __("Usually the email address used as the source of the email."),
-                        "default" => "",
+                        "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
                     ),
@@ -403,7 +403,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "type" => "InputfieldText",
                         "label" => __("DKIM passphrase"),
                         "description" => __("Used if your key is encrypted."),
-                        "default" => "",
+                        "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
                     ),
@@ -412,7 +412,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "label" => __("DKIM domain"),
                         "description" => __("DKIM signing domain name."),
                         "notes" => __("example: `example.com`"),
-                        "default" => "",
+                        "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
                     ),
@@ -420,7 +420,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "type" => "InputfieldText",
                         "label" => __("DKIM private"),
                         "description" => __("DKIM private key file path."),
-                        "default" => "",
+                        "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
                     ),
@@ -428,7 +428,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "type" => "InputfieldText",
                         "label" => __("DKIM private string"),
                         "description" => __('If set, takes precedence over `$DKIM_private`.'),
-                        "default" => "",
+                        "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
                     )
@@ -439,7 +439,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "label" => __("XMailer"),
                 "description" => __("What to put in the X-Mailer header."),
                 "notes" => __("Options: An empty string for PHPMailer default, whitespace for none, or a string to use."),
-                "default" => "",
+                "value" => "",
                 "collapsed" => Inputfield::collapsedNever
             )
         ));
