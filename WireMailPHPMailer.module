@@ -72,16 +72,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
      * WireMailPHPMailer constructor.
      */
     public function __construct() {
-        /*
-        $InputfieldHelper = $this->modules->get("InputfieldHelper");
-        if($InputfieldHelper) {
-            $this->configs = $InputfieldHelper->getModuleConfigs($this->className);
-            $this->defaults = $InputfieldHelper->getDefaults($this->configs);
-            foreach($this->defaults as $key => $value) {
-                $this->$key = $value;
-            }
-        }
-        */
+        
     }
 
     // ------------------------------------------------------------------------
