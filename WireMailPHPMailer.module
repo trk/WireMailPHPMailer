@@ -47,7 +47,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     public static function getModuleInfo() {
         return array(
             "title" => "WireMailPHPMailer",
-            "version" => 103,
+            "version" => 104,
             "summary" => __("This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire."),
             "href" => "https://github.com/trk/WirePHPMailer",
             "author" => "İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com",
@@ -130,12 +130,13 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     /**
      * Add a "To" address.
      *
-     * @param string $address The email address to send to
+     * @param $address
      * @param string $name
-     * @return boolean true on success, false if address already used or invalid in some way
+     * @return $this
      */
     public function addAddress($address, $name = '') {
-        return $this->PHPMailer->addAddress($address, $name);
+        $this->PHPMailer->addAddress($address, $name);
+        return $this;
     }
 
     // ------------------------------------------------------------------------
@@ -143,13 +144,13 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     /**
      * Add a "CC" address.
      *
-     * @note: This function works with the SMTP mailer on win32, not with the "mail" mailer.
-     * @param string $address The email address to send to
+     * @param $address
      * @param string $name
-     * @return boolean true on success, false if address already used or invalid in some way
+     * @return $this
      */
     public function addCC($address, $name = '') {
-        return $this->PHPMailer->addCC($address, $name);
+        $this->PHPMailer->addCC($address, $name);
+        return $this;
     }
 
     // ------------------------------------------------------------------------
@@ -157,13 +158,13 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     /**
      * Add a "BCC" address.
      *
-     * @note: This function works with the SMTP mailer on win32, not with the "mail" mailer.
-     * @param string $address The email address to send to
+     * @param $address
      * @param string $name
-     * @return boolean true on success, false if address already used or invalid in some way
+     * @return $this
      */
     public function addBCC($address, $name = '') {
-        return $this->PHPMailer->addBCC($address, $name);
+        $this->PHPMailer->addBCC($address, $name);
+        return $this;
     }
 
     // ------------------------------------------------------------------------
@@ -171,12 +172,13 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     /**
      * Add a "Reply-To" address.
      *
-     * @param string $address The email address to reply to
+     * @param $address
      * @param string $name
-     * @return boolean true on success, false if address already used or invalid in some way
+     * @return $this
      */
     public function addReplyTo($address, $name = '') {
-        return $this->PHPMailer->addReplyTo($address, $name);
+        $this->PHPMailer->addReplyTo($address, $name);
+        return $this;
     }
 
     // ------------------------------------------------------------------------
@@ -204,10 +206,12 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
      * @param $address
      * @param string $name
      * @param bool $auto
+     * @return $this
      * @throws Exception
      */
     public function setFrom($address, $name = '', $auto = true) {
         $this->PHPMailer->setFrom($address, $name, $auto);
+        return $this;
     }
 
     // ------------------------------------------------------------------------
@@ -240,7 +244,8 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
      * @return string $message
      */
     public function msgHTML($message, $basedir = '', $advanced = false) {
-        return $this->PHPMailer->msgHTML($message, $basedir, $advanced);
+        $this->PHPMailer->msgHTML($message, $basedir, $advanced);
+        return $this;
     }
 
     // ------------------------------------------------------------------------
@@ -254,11 +259,12 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
      * @param string $encoding
      * @param string $type
      * @param string $disposition
-     * @return bool
+     * @return $this
      * @throws Exception
      */
     public function addAttachment($path, $name = '', $encoding = 'base64', $type = '', $disposition = 'attachment') {
-        return $this->PHPMailer->addAttachment($path, $name, $encoding, $type, $disposition);
+        $this->PHPMailer->addAttachment($path, $name, $encoding, $type, $disposition);
+        return $this;
     }
 
     // ------------------------------------------------------------------------
