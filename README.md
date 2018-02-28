@@ -36,7 +36,7 @@ $mail->from("from@domain.ltd")
     ->to('email@domain.ltd')
     ->subject('A Message Subject')
     ->body('A Message Body')
-    ->bodyHtml("<h1>A HTML Message Body")
+    ->bodyHtml("<h1>A HTML Message Body</h1>")
     ->send();
 ```
 
