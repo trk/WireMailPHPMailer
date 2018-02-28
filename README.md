@@ -43,6 +43,16 @@ $mail->from("from@domain.ltd")
 
 # Changelog
 
+## v.1.0.1
+
+### Updated
+
+- Updated configs with [see](https://processwire.com/blog/posts/new-module-configuration-options/#using-an-array-to-define-module-configuration) method.
+
+### Removed
+
+- InputfieldHelper module requirement
+
 ## v.1.0.0
 
 ### Updated
