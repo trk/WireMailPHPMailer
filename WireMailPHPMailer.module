@@ -83,7 +83,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     public function init() {
         $this->PHPMailer = new PHPMailer($this->exceptions);
         foreach($this->getArray() as $key => $value) {
-            $this->PHPMailer->{$key} = $this->{$key};
+            $this->PHPMailer->{$key} = $value;
         }
         return $this->PHPMailer;
     }
