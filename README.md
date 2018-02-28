@@ -43,6 +43,12 @@ $mail->from("from@domain.ltd")
 
 # Changelog
 
+## v.1.0.2
+
+### Fixed
+
+- Getting default config values
+
 ## v.1.0.1
 
 ### Updated
