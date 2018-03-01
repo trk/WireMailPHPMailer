@@ -283,7 +283,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
         if($this->mail["subject"]) $this->PHPMailer->Subject = $this->mail["subject"];
         foreach($this->to as $to) {
             $toName = $this->mail['toName'][$to];
-            if($toName) $to = $this->bundleEmailAndName($to, $toName);
             $this->PHPMailer->addAddress($to, $toName);
         }
         if(count($this->attachments)) {
