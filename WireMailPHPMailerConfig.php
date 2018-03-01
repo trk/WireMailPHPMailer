@@ -44,7 +44,8 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "options" => array(
                     "text/plain" => "text/plain",
                     "text/html" => "text/html",
-                    "multipart/alternative" => "multipart/alternative"
+                    "multipart/alternative" => "multipart/alternative",
+                    "multipart/mixed" => "multipart/mixed"
                 ),
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 25
@@ -64,81 +65,6 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 ),
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 25
-            ),
-            "ErrorInfo" => array(
-                "type" => "InputfieldText",
-                "label" => __("Error Info"),
-                "description" => __("Holds the most recent mailer error message."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 100
-            ),
-            "Sender" => array(
-                "type" => "InputfieldText",
-                "label" => __("Sender"),
-                "description" => __("The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to."),
-                "notes" => __("If not empty, will be passed via `-f` to sendmail or as the `MAIL FROM` value over SMTP."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ),
-            "FromName" => array(
-                "type" => "InputfieldText",
-                "label" => __("From Name"),
-                "description" => __("The From name of the message."),
-                "value" => "Root User",
-                "placeholder" => __("Site administrator"),
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 50
-            ),
-            "From" => array(
-                "type" => "InputfieldText",
-                "label" => __("From"),
-                "description" => __("The From email address for the message."),
-                "value" => "root@localhost",
-                "placeholder" => "email@domain.ltd",
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 50
-            ),
-            "Subject" => array(
-                "type" => "InputfieldText",
-                "label" => __("Subject"),
-                "description" => __("The Subject of the message."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ),
-            "Body" => array(
-                "type" => "InputfieldTextarea",
-                "label" => __("Body"),
-                "description" => __("An HTML or plain text message body."),
-                "notes" => __("If HTML then call `isHTML(true)`"),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ),
-            "AltBody" => array(
-                "type" => "InputfieldTextarea",
-                "label" => __("Alt Body"),
-                "description" => __("The plain-text message body. This body can be read by mail clients that do not have HTML email capability such as mutt & Eudora."),
-                "notes" => __("Clients that can read `HTML` will view the normal `Body`."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ),
-            "Ical" => array(
-                "type" => "InputfieldText",
-                "label" => __("iCal"),
-                "description" => __("An iCal message part body."),
-                "notes" => __("Only supported in simple alt or alt_inline message types To generate iCal event structures, use classes like EasyPeasyICS or iCalcreator. [see](http://sprain.ch/blog/downloads/php-class-easypeasyics-create-ical-files-with-php/), [see](http://kigkonsult.se/iCalcreator/)"),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ),
-            "WordWrap" => array(
-                "type" => "InputfieldInteger",
-                "label" => __("WordWrap"),
-                "description" => __("Word-wrap the message body to this number of chars."),
-                "notes" => __("Set to 0 to not wrap. A useful value here is 78, for [RFC2822](https://www.ietf.org/rfc/rfc2822.txt) section 2.1.1 compliance."),
-                "value" => "0",
-                "inputType" => "number",
-                "min" => 0,
-                "collapsed" => Inputfield::collapsedNever
             ),
             "Mailer" => array(
                 "type" => "InputfieldSelect",
@@ -175,37 +101,6 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "collapsed" => Inputfield::collapsedNever
                     )
                 )
-            ),
-            "ConfirmReadingTo" => array(
-                "type" => "InputfieldCheckbox",
-                "label" => __("Confirm Reading To"),
-                "description" => __("The email address that a reading confirmation should be sent to, also known as read receipt."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ),
-            "Hostname" => array(
-                "type" => "InputfieldText",
-                "label" => __("Hostname"),
-                "description" => __("The hostname to use in the `Message-ID` header and as default `HELO` string."),
-                "notes" => __('If empty, PHPMailer attempts to find one with, in order, `$_SERVER["SERVER_NAME"]`, `gethostname()`, `php_uname("n")`, or the value `localhost.localdomain`'),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ),
-            "MessageID" => array(
-                "type" => "InputfieldText",
-                "label" => __("Message ID"),
-                "description" => __("An ID to be used in the `Message-ID` header."),
-                "notes" => __("If empty, a unique id will be generated. You can set your own, but it must be in the format `<id@domain>`, as defined in RFC5322 section 3.6.4 or it will be ignored. [see](https://tools.ietf.org/html/rfc5322#section-3.6.4)"),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ),
-            "MessageDate" => array(
-                "type" => "InputfieldText",
-                "label" => __("Message Date"),
-                "description" => __("The message Date to be used in the Date header."),
-                "notes" => __('If empty, the current date will be added.'),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
             ),
             "SMTP" => array(
                 "type" => "InputfieldFieldset",
@@ -355,6 +250,118 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "collapsed" => Inputfield::collapsedNever
                     )
                 )
+            ),
+            "Sender" => array(
+                "type" => "InputfieldText",
+                "label" => __("Sender"),
+                "description" => __("The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to."),
+                "notes" => __("If not empty, will be passed via `-f` to sendmail or as the `MAIL FROM` value over SMTP."),
+                "value" => "",
+                "collapsed" => Inputfield::collapsedNever
+            ),
+            "FromName" => array(
+                "type" => "InputfieldText",
+                "label" => __("From Name"),
+                "description" => __("The From name of the message."),
+                "value" => "Root User",
+                "placeholder" => __("Site administrator"),
+                "collapsed" => Inputfield::collapsedNever,
+                "columnWidth" => 50
+            ),
+            "From" => array(
+                "type" => "InputfieldText",
+                "label" => __("From"),
+                "description" => __("The From email address for the message."),
+                "value" => "root@localhost",
+                "placeholder" => "email@domain.ltd",
+                "collapsed" => Inputfield::collapsedNever,
+                "columnWidth" => 50
+            ),
+            "Subject" => array(
+                "type" => "InputfieldText",
+                "label" => __("Subject"),
+                "description" => __("The Subject of the message."),
+                "value" => "",
+                "placeholder" => __("An email subject"),
+                "collapsed" => Inputfield::collapsedNever
+            ),
+            "Body" => array(
+                "type" => "InputfieldTextarea",
+                "label" => __("Body"),
+                "description" => __("An HTML or plain text message body."),
+                "notes" => __("If HTML then call `isHTML(true)`"),
+                "value" => "",
+                "placeholder" => __("Email HTML body"),
+                "collapsed" => Inputfield::collapsedNever
+            ),
+            "AltBody" => array(
+                "type" => "InputfieldTextarea",
+                "label" => __("Alt Body"),
+                "description" => __("The plain-text message body. This body can be read by mail clients that do not have HTML email capability such as mutt & Eudora."),
+                "notes" => __("Clients that can read `HTML` will view the normal `Body`."),
+                "value" => "",
+                "placeholder" => __("Email TEXT Body"),
+                "collapsed" => Inputfield::collapsedNever
+            ),
+            "ConfirmReadingTo" => array(
+                "type" => "InputfieldCheckbox",
+                "label" => __("Confirm Reading To"),
+                "description" => __("The email address that a reading confirmation should be sent to, also known as read receipt."),
+                "value" => "",
+                "collapsed" => Inputfield::collapsedNever
+            ),
+            "ErrorInfo" => array(
+                "type" => "InputfieldText",
+                "label" => __("Error Info"),
+                "description" => __("Holds the most recent mailer error message."),
+                "value" => "",
+                "collapsed" => Inputfield::collapsedNever,
+                "columnWidth" => 100
+            ),
+            "Ical" => array(
+                "type" => "InputfieldText",
+                "label" => __("iCal"),
+                "description" => __("An iCal message part body."),
+                "notes" => __("Only supported in simple alt or alt_inline message types To generate iCal event structures, use classes like EasyPeasyICS or iCalcreator. [see](http://sprain.ch/blog/downloads/php-class-easypeasyics-create-ical-files-with-php/), [see](http://kigkonsult.se/iCalcreator/)"),
+                "value" => "",
+                "collapsed" => Inputfield::collapsedNever
+            ),
+            "WordWrap" => array(
+                "type" => "InputfieldInteger",
+                "label" => __("WordWrap"),
+                "description" => __("Word-wrap the message body to this number of chars."),
+                "notes" => __("Set to 0 to not wrap. A useful value here is 78, for [RFC2822](https://www.ietf.org/rfc/rfc2822.txt) section 2.1.1 compliance."),
+                "value" => "0",
+                "inputType" => "number",
+                "min" => 0,
+                "collapsed" => Inputfield::collapsedNever
+            ),
+
+            "Hostname" => array(
+                "type" => "InputfieldText",
+                "label" => __("Hostname"),
+                "description" => __("The hostname to use in the `Message-ID` header and as default `HELO` string."),
+                "notes" => __('If empty, PHPMailer attempts to find one with, in order, `$_SERVER["SERVER_NAME"]`, `gethostname()`, `php_uname("n")`, or the value `localhost.localdomain`'),
+                "value" => "",
+                "collapsed" => Inputfield::collapsedNever
+            ),
+            "MessageID" => array(
+                "type" => "InputfieldText",
+                "label" => __("Message ID"),
+                "description" => __("An ID to be used in the `Message-ID` header."),
+                "notes" => __("If empty, a unique id will be generated. You can set your own, but it must be in the format `<id@domain>`, as defined in RFC5322 section 3.6.4 or it will be ignored. [see](https://tools.ietf.org/html/rfc5322#section-3.6.4)"),
+                "value" => "",
+                "collapsed" => Inputfield::collapsedNever,
+                "columnWidth" => 50
+            ),
+            "MessageDate" => array(
+                "type" => "InputfieldText",
+                "label" => __("Message Date"),
+                "description" => __("The message Date to be used in the Date header."),
+                "notes" => __('If empty, the current date will be added.'),
+                "value" => "",
+                "collapsed" => Inputfield::collapsedNever,
+                "columnWidth" => 50
             ),
             "SingleTo" => array(
                 "type" => "InputfieldCheckbox",
