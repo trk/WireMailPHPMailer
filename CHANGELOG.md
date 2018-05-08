@@ -1,5 +1,13 @@
 # Changelog
 
+### Updated
+
+- PHPMailer to 6.0.5
+- Module setting `singular: true`
+- Module setting `autoload: true`
+
+## v.1.0.6
+
 ### Fixed
 
 - Send mail, remove `bundleEmailAndName()` function we don't need it
