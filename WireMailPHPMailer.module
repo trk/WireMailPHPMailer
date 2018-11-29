@@ -20,7 +20,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     /**
      * PHPMailer Version
      */
-    const PHPMailer_VERSION = "6.0.5";
+    const PHPMailer_VERSION = "6.0.6";
 
     /**
      * PHPMailer instance
@@ -46,21 +46,21 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
      */
     public static function getModuleInfo() {
         return array(
-            "title" => "WireMailPHPMailer",
-            "version" => 106,
-            "summary" => __("This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire."),
-            "href" => "https://github.com/trk/WirePHPMailer",
-            "author" => "İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com",
-            "requires" => array(
-                "ProcessWire>=3.0.0"
+            'title' => 'WireMailPHPMailer',
+            'version' => 107,
+            'summary' => __('This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.'),
+            'href' => 'https://github.com/trk/WireMailPHPMailer',
+            'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com',
+            'requires' => array(
+                'ProcessWire>=3.0.0'
             ),
-            "installs" => array(),
-            // "permanent" => false
-            // "permission" => "permission-name",
-            // "permissions" => array()
-            "icon" => "envelope-o",
-            "singular" => true,
-            "autoload" => true
+            'installs' => array(),
+            // 'permanent' => false
+            // 'permission' => 'permission-name',
+            // 'permissions' => array()
+            'icon' => 'envelope-o',
+            'singular' => true,
+            'autoload' => true
         );
     }
 
