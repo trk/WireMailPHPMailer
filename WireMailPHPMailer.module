@@ -20,7 +20,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     /**
      * PHPMailer Version
      */
-    const PHPMailer_VERSION = "6.0.6";
+    const PHPMailer_VERSION = "6.0.7";
 
     /**
      * PHPMailer instance
@@ -47,7 +47,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     public static function getModuleInfo() {
         return array(
             'title' => 'WireMailPHPMailer',
-            'version' => 107,
+            'version' => 108,
             'summary' => __('This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.'),
             'href' => 'https://github.com/trk/WireMailPHPMailer',
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com',
@@ -71,9 +71,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
      *
      * WireMailPHPMailer constructor.
      */
-    public function __construct() {
-
-    }
+    public function __construct() {}
 
     // ------------------------------------------------------------------------
 
@@ -85,7 +83,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
         foreach($this->getArray() as $key => $value) {
             $this->PHPMailer->{$key} = $value;
         }
-        return $this->PHPMailer;
     }
 
     // ------------------------------------------------------------------------
@@ -290,7 +287,9 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
                 $this->PHPMailer->addAttachment($file, $filename);
             }
         }
-        if($this->mail["replyTo"]) $this->PHPMailer->addReplyTo($this->mail["replyTo"], $this->mail["replyToName"]);
+        if($this->mail["replyTo"]) {
+            $this->PHPMailer->addReplyTo($this->mail["replyTo"], $this->mail["replyToName"]);
+        }
         if($this->bodyHTML) {
             $this->PHPMailer->isHTML(true);
             $this->PHPMailer->Body = $this->bodyHTML;
