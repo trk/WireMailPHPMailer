@@ -47,7 +47,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     public static function getModuleInfo() {
         return array(
             'title' => 'WireMailPHPMailer',
-            'version' => 108,
+            'version' => 109,
             'summary' => __('This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.'),
             'href' => 'https://github.com/trk/WireMailPHPMailer',
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com',
@@ -262,6 +262,29 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     public function addAttachment($path, $name = '', $encoding = 'base64', $type = '', $disposition = 'attachment') {
         $this->PHPMailer->addAttachment($path, $name, $encoding, $type, $disposition);
         return $this;
+    }
+
+    /**
+     * Add a file to be attached to the email
+     * 
+     * Multiple calls will append attachments. 
+     * To remove the supplied attachments, specify NULL as the value. 
+     *
+     * @param string $value Full path and filename of file attachment
+     * @param string $filename Optional different basename for file as it appears in the mail
+     * @return $this 
+     *
+     */
+    public function attachment($value, $filename = '') {
+        if($value === null) {
+            // clear attachments
+            $this->PHPMailer->clearAttachments();
+        } else {
+            // add attachment
+            $this->addAttachment($value, $filename); 
+        }
+        
+        return parent::attachment($value, $filename);
     }
 
     // ------------------------------------------------------------------------
