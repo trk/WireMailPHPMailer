@@ -60,7 +60,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
             // 'permissions' => array()
             'icon' => 'envelope-o',
             'singular' => true,
-            'autoload' => true
+            'autoload' => false
         );
     }
 
