@@ -44,6 +44,7 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "options" => array(
                     "text/plain" => "text/plain",
                     "text/html" => "text/html",
+                    "multipart/related" => "multipart/related",
                     "multipart/alternative" => "multipart/alternative",
                     "multipart/mixed" => "multipart/mixed"
                 ),

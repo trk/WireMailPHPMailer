@@ -20,7 +20,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     /**
      * PHPMailer Version
      */
-    const PHPMailer_VERSION = "6.0.7";
+    const PHPMailer_VERSION = "6.1.1";
 
     /**
      * PHPMailer instance
@@ -47,7 +47,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule {
     public static function getModuleInfo() {
         return array(
             'title' => 'WireMailPHPMailer',
-            'version' => 110,
+            'version' => 120,
             'summary' => __('This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.'),
             'href' => 'https://github.com/trk/WireMailPHPMailer',
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com',
