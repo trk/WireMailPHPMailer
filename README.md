@@ -1,6 +1,6 @@
 # WireMailPHPMailer
 
-This module extends WireMail base class, integrating the [PHPMailer](https://github.com/PHPMailer/PHPMailer) mailing library into ProcessWire.The module using [PHPMailer 6.0.3](https://github.com/PHPMailer/PHPMailer). You can see an example usage below.
+This module extends WireMail base class, integrating the [PHPMailer](https://github.com/PHPMailer/PHPMailer) mailing library into ProcessWire.The module using [PHPMailer](https://github.com/PHPMailer/PHPMailer). You can see an example usage below.
 
 [Simple example](https://github.com/PHPMailer/PHPMailer#a-simple-example)
 
