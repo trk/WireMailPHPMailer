@@ -1,5 +1,16 @@
 # Release Notes for WireMailPHPMailer
 
+### Removed
+
+- getLastMessageID from WireMailPHPMailer class
+
+### Updated
+
+- PHPMailer to 6.1.8
+- re-write code for fix duplicate message send
+
+## v.1.2.3
+
 ### Updated
 
 - PHPMailer to 6.1.6

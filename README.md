@@ -14,8 +14,16 @@ Using Directly PHPMailer library
 -
 
 ```php
+/** @var WireMailPHPMailer $mail */
 $mail = wire("modules")->get("WireMailPHPMailer");
-$mail = $mail->mailer();
+// load module without module configs
+/** @var PHPMailer $mail */
+$mail = $mail->getInstance(false);
+```
+
+```php
+$mail = wire("modules")->get("WireMailPHPMailer");
+$mail = $mail->getInstance();
 $mail->addAddress("email@domain.ltd", "Someone");
 $mail->isHTML(true);
 $mail->Subject = "WireMailPHPMailer";
