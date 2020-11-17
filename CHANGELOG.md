@@ -1,5 +1,25 @@
 # Release Notes for WireMailPHPMailer
 
+### Added
+
+- wireLog() for send() method, add send result to log file
+
+### Removed
+
+- public $exceptions variable
+- construct method
+
+### Updated
+
+- send() method, use WireMailPHPMailer functions
+- check is_string() for $address, $message, $path
+- separate set user and module settings
+- $options now inside init() function
+- set isHTML()) for Body
+- set isSMTP() for Mailer=smtp
+
+## v.1.2.4
+
 ### Removed
 
 - getLastMessageID from WireMailPHPMailer class
