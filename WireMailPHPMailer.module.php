@@ -485,7 +485,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
             }
     
             if($this->body) {
-                $this->AltBody($this->Body);
+                $this->AltBody($this->body);
             }
 
             $instance = $this->setUserSettings($instance);
