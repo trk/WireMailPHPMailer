@@ -1,5 +1,21 @@
 # Release Notes for WireMailPHPMailer
 
+### Fixed
+
+- #8 wireMail() compatibility
+
+## v.1.2.6
+
+### Fixed
+
+- #7 wireMail() compatibility
+
+### Updated
+
+- PHPMailer to 6.4.0
+
+## v.1.2.5
+
 ### Added
 
 - wireLog() for send() method, add send result to log file

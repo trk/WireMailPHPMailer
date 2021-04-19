@@ -45,7 +45,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     {
         return array(
             'title' => 'WireMailPHPMailer',
-            'version' => 125,
+            'version' => 126,
             'summary' => __('This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.'),
             'href' => 'https://github.com/trk/WireMailPHPMailer',
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com',
@@ -189,14 +189,14 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     /**
      * @inheritDoc
      */
-    public function Body($Body)
-    {
-        if (is_string($Body)) {
-            $this->options['Body'] = $Body;
-        }
+    // public function Body($Body)
+    // {
+    //     if (is_string($Body)) {
+    //         $this->options['Body'] = $Body;
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     // ------------------------------------------------------------------------
 
@@ -481,7 +481,8 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
             }
     
             if($this->bodyHTML) {
-                $this->msgHTML($this->bodyHTML);
+                // $this->msgHTML($this->bodyHTML);
+                $this->options['Body'] = $this->bodyHTML;
             }
     
             if($this->body) {
