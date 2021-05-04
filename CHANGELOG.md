@@ -2,6 +2,12 @@
 
 ### Fixed
 
+- Update PHPMailer to 6.4.1
+
+## v.1.2.7
+
+### Fixed
+
 - #8 wireMail() compatibility
 
 ## v.1.2.6
