@@ -1,6 +1,12 @@
 # Release Notes for WireMailPHPMailer
 
-### Fixed
+### Updated
+
+- Update PHPMailer to 6.5.0
+
+## v.1.2.8
+
+### Updated
 
 - Update PHPMailer to 6.4.1
 
