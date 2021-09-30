@@ -2,6 +2,16 @@
 
 ### Updated
 
+- Fix #10
+
+### Updated
+
+- Update PHPMailer to 6.5.1
+
+## v.1.2.9
+
+### Updated
+
 - Update PHPMailer to 6.5.0
 
 ## v.1.2.8
