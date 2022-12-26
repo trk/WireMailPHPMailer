@@ -20,7 +20,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     /**
      * PHPMailer Version
      */
-    const PHPMailer_VERSION = "6.6.5";
+    const PHPMailer_VERSION = "6.7.1";
 
     /**
      * @var PHPMailer
@@ -44,7 +44,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     {
         return array(
             'title' => 'WireMailPHPMailer',
-            'version' => 135,
+            'version' => 136,
             'summary' => __('This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.'),
             'href' => 'https://github.com/trk/WireMailPHPMailer',
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com',
@@ -56,6 +56,24 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
             'singular' => false,
             'autoload' => false
         );
+    }
+
+    // ------------------------------------------------------------------------
+
+    public function __get($key)
+    {
+        $wireMailCompatibility = [
+            'from' => 'From',
+            'fromName' => 'FromName',
+            'subject' => 'Subject',
+            'body' => 'AltBody',
+            'bodyHTML' => 'Body'
+        ];
+
+        if (isset($wireMailCompatibility[$key])) {
+            return $this->{$wireMailCompatibility[$key]};
+        }
+        return parent::__get($key);
     }
 
     // ------------------------------------------------------------------------
@@ -454,26 +472,66 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
         $instance = $this->getInstance();
 
         try {
-            if($this->mail["from"]) {
-                $this->setFrom($this->mail['from'], $this->mail['fromName']);
-            }
-    
-            if($this->mail["subject"]) {
-                $this->addSubject($this->mail['subject']);
-            }
-            
-            foreach($this->to as $to) {
-                $this->addAddress($to, $this->mail['toName'][$to]);
-            }
-    
+
             if(count($this->attachments)) {
                 foreach($this->attachments as $filename => $file) {
                     $this->addAttachment($file, $filename);
                 }
             }
     
-            if($this->mail["replyTo"]) {
-                $this->addReplyTo($this->mail['replyTo'], $this->mail['replyToName']);
+            if($this->bodyHTML) {
+                $this->options['Body'] = $this->bodyHTML;
+            }
+    
+            if($this->body) {
+                $this->AltBody($this->body);
+            }
+            
+            foreach ($this->mail as $key => $value) {
+
+                if ($key == 'to') {
+                    if (is_array($value)) {
+                        foreach ($value as $i => $e) {
+                            $n = is_array($this->mail['toName']) && $this->mail['toName'][$i] ? $this->mail['toName'][$i] : '';
+                            $this->addAddress($e, $n);
+                        }
+                    } else {
+                        $n = is_string($this->mail['toName']) ? $this->mail['toName'] : '';
+                        $this->addAddress($value, $n);
+                    }
+                }
+
+                if ($key == 'from') {
+                    $this->setFrom($value, $this->mail['fromName']);
+                }
+
+                if ($key == 'replyTo') {
+                    $this->addReplyTo($value, $this->mail['replyToName']);
+                }
+
+                if ($key == 'subject') {
+                    $this->addSubject($this->mail['subject']);
+                }
+
+                if ($key == 'bodyHTML') {
+                    $this->options['Body'] = $value;
+                }
+
+                if ($key == 'body') {
+                    $this->AltBody($value);
+                }
+
+                if ($key == 'attachments') {
+                    foreach($value as $filename => $file) {
+                        $this->addAttachment($file, $filename);
+                    }
+                }
+            }
+    
+            if(count($this->attachments)) {
+                foreach($this->attachments as $filename => $file) {
+                    $this->addAttachment($file, $filename);
+                }
             }
     
             if($this->bodyHTML) {
