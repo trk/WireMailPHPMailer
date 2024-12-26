@@ -5,13 +5,13 @@ namespace ProcessWire;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__ . DIRECTORY_SEPARATOR . "vendor/autoload.php";
+require __DIR__ . "/vendor/autoload.php";
 
 /**
  * Class WireMailPHPMailer
  *
  * @author			: İskender TOTOĞLU, @ukyo (community), @trk (Github)
- * @website			: https://www.altivebir.com
+ * @website			: https://www.totoglu.com
  * @projectWebsite	: https://github.com/trk/WireMailPHPMailer
  */
 class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
@@ -20,7 +20,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     /**
      * PHPMailer Version
      */
-    const PHPMailer_VERSION = "6.9.1";
+    const PHPMailer_VERSION = "6.9.3";
 
     /**
      * @var PHPMailer
@@ -44,7 +44,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     {
         return array(
             'title' => 'WireMailPHPMailer',
-            'version' => 139,
+            'version' => 140,
             'summary' => __('This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.'),
             'href' => 'https://github.com/trk/WireMailPHPMailer',
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com',

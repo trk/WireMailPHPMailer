@@ -6,7 +6,7 @@
  * Configs for WireMailPHPMailer
  *
  * @author			: İskender TOTOĞLU, @ukyo (community), @trk (Github)
- * @website			: https://www.altivebir.com
+ * @website			: https://www.totoglu.com
  * @projectWebsite	: https://github.com/trk/WireMailPHPMailer
  */
 class WireMailPHPMailerConfig extends ModuleConfig {
