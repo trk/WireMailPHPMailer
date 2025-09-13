@@ -153,7 +153,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
 
             // set module configs
             foreach ($data as $key => $value) {
-                $instance->{$key} = $value;
+                $instance->set($key, $value);
             }
         }
 
