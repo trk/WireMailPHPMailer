@@ -72,8 +72,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
         return parent::__get($key);
     }
 
-    // ------------------------------------------------------------------------
-
     /**
      * Initialize the module
      */
