@@ -2,7 +2,7 @@ name: "Tag, Release, Packagist"
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - "WireMailPHPMailer.module.php"
 jobs:
@@ -43,3 +43,9 @@ jobs:
           git tag $TAG
           git push origin $TAG
           gh release create $TAG --generate-notes
+      - name: Notify Packagist
+        run: |
+          curl -X POST \
+               -H 'content-type:application/json' \
+               'https://packagist.org/api/update.json?username=${{ env.PACKAGIST_USERNAME }}&apiToken=${{ env.secrets.PACKAGIST }}' \
+               -d '{"repository":{"url":"https://github.com/${{ env.PACKAGE_NAME }}"}}'
