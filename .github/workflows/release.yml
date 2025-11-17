@@ -1,4 +1,4 @@
-name: Tag, Release, Packagist
+name: "Tag, Release, Packagist"
 on:
   push:
     branches:
@@ -47,5 +47,5 @@ jobs:
         run: |
           curl -X POST \
                -H 'content-type:application/json' \
-               'https://packagist.org/api/update.json?username=${{ env.PACKAGIST_USERNAME }}&apiToken=${{ secrets.PACKAGIST }}' \
+               'https://packagist.org/api/update.json?username=${{ env.PACKAGIST_USERNAME }}&apiToken=${{ env.secrets.PACKAGIST }}' \
                -d '{"repository":{"url":"https://github.com/${{ env.PACKAGE_NAME }}"}}'
