@@ -26,7 +26,8 @@ jobs:
       - name: Extract module version
         id: get_version
         run: |
-          VERSION=$(grep -oP "const VERSION = '\K[^']+" ${{ env.VERSION_FILE }})
+          VERSION=$(grep -oP "const\s+VERSION\s*=\s*['\"]\K[^'\"]+" ${{ env.VERSION_FILE }})
+
 
           if [ -z "$VERSION" ]; then
             echo "::error::Could not find the version number in ${{ env.VERSION_FILE }}"
