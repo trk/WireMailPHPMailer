@@ -56,8 +56,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
         );
     }
 
-    // ------------------------------------------------------------------------
-
     public function __get($key)
     {
         $wireMailCompatibility = [
