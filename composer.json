@@ -1,5 +1,24 @@
 {
+  "name": "trk/processwire-php-mailer",
+  "description": "This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.",
+  "type": "pw-module",
+  "keywords": [
+    "processwire",
+    "mailer",
+    "php-mailer"
+  ],
+  "homepage": "https://github.com/trk/WireMailPHPMailer",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Iskender TOTOGLU",
+      "email": "iskender@totoglu.com",
+      "homepage": "https://totoglu.com/"
+    }
+  ],
   "require": {
+    "php": ">=7.0",
+    "hari/pw-module": "~1.0",
     "phpmailer/phpmailer": "^7.0"
   }
 }
