@@ -32,8 +32,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
      */
     protected $options = [];
 
-    // ------------------------------------------------------------------------
-
     /**
      * Module info
      *
