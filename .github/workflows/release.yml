@@ -9,8 +9,6 @@ jobs:
   tag_and_release:
     runs-on: ubuntu-latest
     env:
-      PACKAGIST_USERNAME: "trk"
-      PACKAGE_NAME: "trk/processwire-php-mailer"
       VERSION_FILE: "WireMailPHPMailer.module.php"
     permissions:
       contents: write
