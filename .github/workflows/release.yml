@@ -19,6 +19,8 @@ jobs:
 
     # Environment variables available to all steps in this job
     env:
+      PACKAGIST_USERNAME: "trk"
+      PACKAGE_NAME: "trk/processwire-php-mailer"
       VERSION_FILE: "WireMailPHPMailer.module.php"
 
     # Permissions required for the job
@@ -69,3 +71,9 @@ jobs:
           # The --generate-notes flag automatically creates release notes
           # from commits since the last tag.
           gh release create $TAG --generate-notes
+      - name: Notify Packagist
+        run: |
+          curl -X POST \
+               -H 'content-type:application/json' \
+               'https://packagist.org/api/update.json?username=${{ env.PACKAGIST_USERNAME }}&apiToken=${{ secrets.PACKAGIST }}' \
+               -d '{"repository":{"url":"https://github.com/${{ env.PACKAGE_NAME }}"}}'
