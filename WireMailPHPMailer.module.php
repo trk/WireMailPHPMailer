@@ -123,8 +123,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
         return $instance;
     }
 
-    // ------------------------------------------------------------------------
-
     /**
      * Apply module settings
      *
