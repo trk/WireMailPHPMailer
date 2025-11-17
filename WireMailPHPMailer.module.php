@@ -97,8 +97,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
         ];
     }
 
-    // ------------------------------------------------------------------------
-
     /**
      * Return PHPMailer instance
      *
