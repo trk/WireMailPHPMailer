@@ -21,7 +21,6 @@ class WireMailPHPMailerConfig extends ModuleConfig
             "TabGeneral" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("General"),
-                "class" => "WireTab",
                 "children" => [
                     "Priority" => [
                         "type" => "InputfieldSelect",
@@ -101,7 +100,6 @@ class WireMailPHPMailerConfig extends ModuleConfig
             "TabRouting" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("Routing"),
-                "class" => "WireTab",
                 "children" => [
                     "Sender" => [
                         "type" => "InputfieldText",
@@ -144,7 +142,6 @@ class WireMailPHPMailerConfig extends ModuleConfig
             "TabTransport" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("Transport"),
-                "class" => "WireTab",
                 "children" => [
                     "Mailer" => [
                         "type" => "InputfieldSelect",
@@ -377,7 +374,6 @@ class WireMailPHPMailerConfig extends ModuleConfig
             "TabDKIM" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("DKIM"),
-                "class" => "WireTab",
                 "children" => [
                     "DKIM_domain" => [
                         "type" => "InputfieldText",
@@ -440,7 +436,6 @@ class WireMailPHPMailerConfig extends ModuleConfig
             "TabAdvanced" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("Advanced & Debug"),
-                "class" => "WireTab",
                 "children" => [
                     "Hostname" => [
                         "type" => "InputfieldText",
