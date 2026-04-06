@@ -7,16 +7,26 @@ namespace Composer\Autoload;
 class ComposerStaticInit6d67203b6e9fc952ae681c538683a497
 {
     public static $prefixLengthsPsr4 = array (
-        'P' => 
+        'P' =>
         array (
             'PHPMailer\\PHPMailer\\' => 20,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'PHPMailer\\PHPMailer\\' => 
+        'PHPMailer\\PHPMailer\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'P' =>
+        array (
+            'PW\\Composer\\' =>
+            array (
+                0 => __DIR__ . '/..' . '/hari/pw-module/src',
+            ),
         ),
     );
 
@@ -29,6 +39,7 @@ class ComposerStaticInit6d67203b6e9fc952ae681c538683a497
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit6d67203b6e9fc952ae681c538683a497::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit6d67203b6e9fc952ae681c538683a497::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit6d67203b6e9fc952ae681c538683a497::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit6d67203b6e9fc952ae681c538683a497::$classMap;
 
         }, null, ClassLoader::class);

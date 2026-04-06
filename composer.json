@@ -20,5 +20,16 @@
     "php": ">=7.0",
     "hari/pw-module": "~1.0",
     "phpmailer/phpmailer": "^7.0"
+  },
+  "suggest": {
+    "league/oauth2-google": "Required for Google XOAUTH2 authentication.",
+    "hayageek/oauth2-yahoo": "Required for Yahoo XOAUTH2 authentication.",
+    "stevenmaguire/oauth2-microsoft": "Required for Microsoft XOAUTH2 authentication.",
+    "greew/oauth2-azure-provider": "Required for Microsoft Azure XOAUTH2 authentication."
+  },
+  "config": {
+    "allow-plugins": {
+      "hari/pw-module": true
+    }
   }
 }

@@ -1,4 +1,8 @@
-<?php namespace ProcessWire;
+<?php
+
+declare(strict_types=1);
+
+namespace ProcessWire;
 
 /**
  * Class WireMailPHPMailerConfig
@@ -9,107 +13,109 @@
  * @website			: https://www.totoglu.com
  * @projectWebsite	: https://github.com/trk/WireMailPHPMailer
  */
-class WireMailPHPMailerConfig extends ModuleConfig {
-    public function __construct() {
-        $this->add(array(
-            "Priority" => array(
+class WireMailPHPMailerConfig extends ModuleConfig
+{
+    public function __construct()
+    {
+        $this->add([
+            "Priority" => [
                 "type" => "InputfieldSelect",
                 "label" => __("Priority"),
                 "description" => __("When null, the header is not set at all."),
                 "required" => true,
                 "value" => "null",
-                "options" => array(
+                "options" => [
                     "null" => __("Default"),
                     1 => __("High"),
                     3 => __("Normal"),
                     5 => __("Low")
-                ),
+                ],
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 25
-            ),
-            "CharSet" => array(
+            ],
+            "CharSet" => [
                 "type" => "InputfieldText",
                 "label" => __("Character set"),
                 "description" => __("The character set of the message."),
                 "value" => "utf-8",
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 25
-            ),
-            "ContentType" => array(
+            ],
+            "ContentType" => [
                 "type" => "InputfieldSelect",
                 "label" => __("Content-type"),
                 "description" => __("The MIME Content-type of the message."),
                 "required" => true,
                 "value" => "text/html",
-                "options" => array(
+                "options" => [
                     "text/plain" => "text/plain",
                     "text/html" => "text/html",
                     "multipart/related" => "multipart/related",
                     "multipart/alternative" => "multipart/alternative",
                     "multipart/mixed" => "multipart/mixed"
-                ),
+                ],
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 25
-            ),
-            "Encoding" => array(
+            ],
+            "Encoding" => [
                 "type" => "InputfieldSelect",
                 "label" => __("Encoding"),
                 "description" => __("The message encoding."),
                 "required" => true,
                 "value" => "8bit",
-                "options" => array(
+                "options" => [
                     "8bit" => "8bit",
                     "7bit" => "7bit",
                     "binary" => "binary",
                     "base64" => "base64",
                     "quoted-printable" => "quoted-printable"
-                ),
+                ],
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 25
-            ),
-            "Mailer" => array(
+            ],
+            "Mailer" => [
                 "type" => "InputfieldSelect",
                 "label" => __("Mailer"),
                 "description" => __("Which method to use to send mail."),
                 "required" => true,
                 "value" => "mail",
-                "options" => array(
+                "options" => [
                     "mail" => "mail",
                     "sendmail" => "sendmail",
                     "smtp" => "smtp"
-                ),
+                ],
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "SendmailSettings" => array(
+            ],
+            "SendmailSettings" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("Sendmail Settings"),
                 "showIf" => "Mailer=sendmail",
                 "collapsed" => Inputfield::collapsedYes,
-                "children" => array(
-                    "Sendmail" => array(
+                "children" => [
+                    "Sendmail" => [
                         "type" => "InputfieldText",
                         "label" => __("Sendmail"),
                         "description" => __("The path to the sendmail program."),
                         "value" => "/usr/sbin/sendmail",
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "UseSendmailOptions" => array(
+                    ],
+                    "UseSendmailOptions" => [
                         "type" => "InputfieldCheckbox",
                         "label" => __("Use Sendmail Options"),
                         "description" => __("Whether `mail()` uses a fully `sendmail-compatible` MTA."),
                         "notes" => __("One which supports sendmail's `-oi -f` options."),
                         "value" => true,
                         "collapsed" => Inputfield::collapsedNever
-                    )
-                )
-            ),
-            "SMTP" => array(
+                    ]
+                ]
+            ],
+            "SMTP" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("SMTP Settings"),
                 "showIf" => "Mailer=smtp",
                 "collapsed" => Inputfield::collapsedYes,
-                "children" => array(
-                    "Host" => array(
+                "children" => [
+                    "Host" => [
                         "type" => "InputfieldText",
                         "label" => __("Host"),
                         "description" => __("SMTP hosts."),
@@ -119,8 +125,8 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "value" => "localhost",
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "Helo" => array(
+                    ],
+                    "Helo" => [
                         "type" => "InputfieldText",
                         "label" => __("Helo"),
                         "description" => __("The SMTP HELO of the message."),
@@ -128,22 +134,22 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "value" => "",
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "SMTPSecure" => array(
+                    ],
+                    "SMTPSecure" => [
                         "type" => "InputfieldSelect",
                         "label" => __("SMTP Secure"),
                         "description" => __("What kind of encryption to use on the SMTP connection."),
                         "required" => true,
                         "value" => "tls",
-                        "options" => array(
+                        "options" => [
                             "" => __("Default"),
                             "ssl" => __("SSL"),
                             "tls" => __("TLS")
-                        ),
+                        ],
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "Port" => array(
+                    ],
+                    "Port" => [
                         "type" => "InputfieldInteger",
                         "label" => __("Port"),
                         "description" => __("The default SMTP server port."),
@@ -152,58 +158,58 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "value" => 587,
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "SMTPAutoTLS" => array(
+                    ],
+                    "SMTPAutoTLS" => [
                         "type" => "InputfieldCheckbox",
                         "label" => __("SMTP Auto TLS"),
-                        "description" => __("The email address that a reading confirmation should be sent to, also known as read receipt."),
+                        "description" => __("Whether to enable SMTP Auto TLS. Note: Read PHPMailer documentation."),
                         "value" => true,
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "SMTPAuth" => array(
+                    ],
+                    "SMTPAuth" => [
                         "type" => "InputfieldCheckbox",
                         "label" => __("SMTP Auth"),
                         "description" => __("Whether to use SMTP authentication."),
                         "notes" => __("Uses the Username and Password properties."),
                         "value" => false,
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "Username" => array(
+                    ],
+                    "Username" => [
                         "type" => "text",
                         "label" => __("Username"),
                         "description" => __("SMTP username."),
                         "value" => "",
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "Password" => array(
+                    ],
+                    "Password" => [
                         "type" => "text",
                         "label" => __("Password"),
                         "description" => __("SMTP password."),
-                        "attr" => array(
+                        "attr" => [
                             "type" => "password"
-                        ),
+                        ],
                         "value" => "",
                         "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "AuthType" => array(
+                    ],
+                    "AuthType" => [
                         "type" => "select",
                         "label" => __("Auth Type"),
                         "description" => __("SMTP auth type."),
                         "notes" => __("Options are CRAM-MD5, LOGIN, PLAIN, XOAUTH2, attempted in that order if not specified."),
                         "required" => true,
                         "value" => "",
-                        "options" => array(
+                        "options" => [
                             "" => __("Default"),
                             "CRAM-MD5" => "CRAM-MD5",
                             "LOGIN" => "LOGIN",
                             "PLAIN" => "PLAIN",
                             "XOAUTH2" => "XOAUTH2"
-                        ),
+                        ],
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "Timeout" => array(
+                    ],
+                    "Timeout" => [
                         "type" => "InputfieldInteger",
                         "label" => __("Timeout"),
                         "description" => __("The SMTP server timeout in seconds."),
@@ -212,55 +218,118 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "min" => 0,
                         "value" => 300,
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "SMTPDebug" => array(
+                    ],
+                    "SMTPDebug" => [
                         "type" => "InputfieldSelect",
                         "label" => __("SMTP Debug"),
                         "description" => __("SMTP class debug output mode."),
                         "notes" => __("Debug output level."),
                         "required" => true,
                         "value" => "0",
-                        "options" => array(
+                        "options" => [
                             "0" => __("No output"),
                             "1" => __("Commands"),
                             "2" => __("Data and commands"),
                             "3" => __("As 2 plus connection status"),
                             "4" => __("Low-level data output.")
-                        ),
+                        ],
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "Debugoutput" => array(
+                    ],
+                    "Debugoutput" => [
                         "type" => "InputfieldSelect",
                         "label" => __("Debug output"),
                         "description" => __("How to handle debug output."),
                         "required" => true,
                         "value" => "html",
-                        "options" => array(
+                        "options" => [
                             "echo" => __("Output plain-text as-is, appropriate for CLI"),
                             "html" => __("Output escaped, line breaks converted to `<br>`, appropriate for browser output"),
                             "error_log" => __("Output to error log as configured in php.ini")
-                        ),
+                        ],
                         "collapsed" => Inputfield::collapsedNever
-                    ),
-                    "SMTPKeepAlive" => array(
+                    ],
+                    "SMTPKeepAlive" => [
                         "type" => "InputfieldCheckbox",
                         "label" => __("SMTP Keep Alive"),
                         "description" => __("Whether to keep SMTP connection open after each message."),
                         "notes" => __("If this is set to true then to close the connection requires an explicit call to `smtpClose()`."),
                         "value" => false,
                         "collapsed" => Inputfield::collapsedNever
-                    )
-                )
-            ),
-            "Sender" => array(
+                    ]
+            ]
+        ],
+        "OAuth2" => [
+            "type" => "InputfieldFieldset",
+            "label" => __("OAuth2 Settings"),
+            "showIf" => "Mailer=smtp, AuthType=XOAUTH2",
+            "collapsed" => Inputfield::collapsedNo,
+            "children" => [
+                "OAuthProvider" => [
+                    "type" => "InputfieldSelect",
+                    "label" => __("OAuth Provider"),
+                    "description" => __("Select the OAuth2 provider. Make sure the corresponding provider library is installed via Composer."),
+                    "required" => true,
+                    "value" => "google",
+                    "options" => [
+                        "google" => __("Google"),
+                        "yahoo" => __("Yahoo"),
+                        "microsoft" => __("Microsoft"),
+                        "azure" => __("Microsoft Azure (Greew)")
+                    ],
+                    "collapsed" => Inputfield::collapsedNever,
+                    "columnWidth" => 50
+                ],
+                "OAuthEmail" => [
+                    "type" => "InputfieldText",
+                    "label" => __("OAuth Email"),
+                    "description" => __("The email address of the account you are authorizing."),
+                    "value" => "",
+                    "collapsed" => Inputfield::collapsedNever,
+                    "columnWidth" => 50
+                ],
+                "OAuthClientId" => [
+                    "type" => "InputfieldText",
+                    "label" => __("Client ID"),
+                    "description" => __("The Client ID from your OAuth provider."),
+                    "value" => "",
+                    "collapsed" => Inputfield::collapsedNever,
+                    "columnWidth" => 50
+                ],
+                "OAuthClientSecret" => [
+                    "type" => "InputfieldText",
+                    "label" => __("Client Secret"),
+                    "description" => __("The Client Secret from your OAuth provider. Not required for Azure if using delegated permissions for public clients, but typically needed."),
+                    "value" => "",
+                    "collapsed" => Inputfield::collapsedNever,
+                    "columnWidth" => 50
+                ],
+                "OAuthTenantId" => [
+                    "type" => "InputfieldText",
+                    "label" => __("Tenant ID (Azure Only)"),
+                    "description" => __("The Tenant ID from Microsoft Azure."),
+                    "showIf" => "OAuthProvider=azure",
+                    "value" => "",
+                    "collapsed" => Inputfield::collapsedNever,
+                    "columnWidth" => 100
+                ],
+                "OAuthRefreshToken" => [
+                    "type" => "InputfieldText",
+                    "label" => __("Refresh Token"),
+                    "description" => __("The Refresh Token. Once obtained, it is saved here automatically."),
+                    "value" => "",
+                    "collapsed" => Inputfield::collapsedNever,
+                ]
+            ]
+        ],
+        "Sender" => [
                 "type" => "InputfieldText",
                 "label" => __("Sender"),
                 "description" => __("The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to."),
                 "notes" => __("If not empty, will be passed via `-f` to sendmail or as the `MAIL FROM` value over SMTP."),
                 "value" => "",
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "FromName" => array(
+            ],
+            "FromName" => [
                 "type" => "InputfieldText",
                 "label" => __("From Name"),
                 "description" => __("The From name of the message."),
@@ -268,8 +337,8 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "placeholder" => __("Site administrator"),
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 50
-            ),
-            "From" => array(
+            ],
+            "From" => [
                 "type" => "InputfieldText",
                 "label" => __("From"),
                 "description" => __("The From email address for the message."),
@@ -277,16 +346,16 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "placeholder" => "email@domain.ltd",
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 50
-            ),
-            "Subject" => array(
+            ],
+            "Subject" => [
                 "type" => "InputfieldText",
                 "label" => __("Subject"),
                 "description" => __("The Subject of the message."),
                 "value" => "",
                 "placeholder" => __("An email subject"),
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "Body" => array(
+            ],
+            "Body" => [
                 "type" => "InputfieldTextarea",
                 "label" => __("Body"),
                 "description" => __("An HTML or plain text message body."),
@@ -294,8 +363,8 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "value" => "",
                 "placeholder" => __("Email HTML body"),
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "AltBody" => array(
+            ],
+            "AltBody" => [
                 "type" => "InputfieldTextarea",
                 "label" => __("Alt Body"),
                 "description" => __("The plain-text message body. This body can be read by mail clients that do not have HTML email capability such as mutt & Eudora."),
@@ -303,31 +372,31 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "value" => "",
                 "placeholder" => __("Email TEXT Body"),
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "ConfirmReadingTo" => array(
+            ],
+            "ConfirmReadingTo" => [
                 "type" => "InputfieldCheckbox",
                 "label" => __("Confirm Reading To"),
                 "description" => __("The email address that a reading confirmation should be sent to, also known as read receipt."),
                 "value" => "",
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "ErrorInfo" => array(
+            ],
+            "ErrorInfo" => [
                 "type" => "InputfieldText",
                 "label" => __("Error Info"),
                 "description" => __("Holds the most recent mailer error message."),
                 "value" => "",
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 100
-            ),
-            "Ical" => array(
+            ],
+            "Ical" => [
                 "type" => "InputfieldText",
                 "label" => __("iCal"),
                 "description" => __("An iCal message part body."),
-                "notes" => __("Only supported in simple alt or alt_inline message types To generate iCal event structures, use classes like EasyPeasyICS or iCalcreator. [see](http://sprain.ch/blog/downloads/php-class-easypeasyics-create-ical-files-with-php/), [see](http://kigkonsult.se/iCalcreator/)"),
+                "notes" => __("Only supported in simple alt or alt_inline message types To generate iCal event structures, use classes like EasyPeasyICS or iCalcreator."),
                 "value" => "",
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "WordWrap" => array(
+            ],
+            "WordWrap" => [
                 "type" => "InputfieldInteger",
                 "label" => __("WordWrap"),
                 "description" => __("Word-wrap the message body to this number of chars."),
@@ -336,26 +405,25 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "inputType" => "number",
                 "min" => 0,
                 "collapsed" => Inputfield::collapsedNever
-            ),
-
-            "Hostname" => array(
+            ],
+            "Hostname" => [
                 "type" => "InputfieldText",
                 "label" => __("Hostname"),
                 "description" => __("The hostname to use in the `Message-ID` header and as default `HELO` string."),
                 "notes" => __('If empty, PHPMailer attempts to find one with, in order, `$_SERVER["SERVER_NAME"]`, `gethostname()`, `php_uname("n")`, or the value `localhost.localdomain`'),
                 "value" => "",
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "MessageID" => array(
+            ],
+            "MessageID" => [
                 "type" => "InputfieldText",
                 "label" => __("Message ID"),
                 "description" => __("An ID to be used in the `Message-ID` header."),
-                "notes" => __("If empty, a unique id will be generated. You can set your own, but it must be in the format `<id@domain>`, as defined in RFC5322 section 3.6.4 or it will be ignored. [see](https://tools.ietf.org/html/rfc5322#section-3.6.4)"),
+                "notes" => __("If empty, a unique id will be generated. You can set your own, but it must be in the format `<id@domain>`, as defined in RFC5322 section 3.6.4 or it will be ignored."),
                 "value" => "",
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 50
-            ),
-            "MessageDate" => array(
+            ],
+            "MessageDate" => [
                 "type" => "InputfieldText",
                 "label" => __("Message Date"),
                 "description" => __("The message Date to be used in the Date header."),
@@ -363,59 +431,59 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                 "value" => "",
                 "collapsed" => Inputfield::collapsedNever,
                 "columnWidth" => 50
-            ),
-            "SingleTo" => array(
+            ],
+            "SingleTo" => [
                 "type" => "InputfieldCheckbox",
                 "label" => __("Single To"),
                 "description" => __("Whether to split multiple to addresses into multiple messages or send them all in one message."),
                 "notes" => __("Only supported in `mail` and `sendmail` transports, not in SMTP."),
                 "value" => false,
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "do_verp" => array(
+            ],
+            "do_verp" => [
                 "type" => "InputfieldCheckbox",
                 "label" => __("Generate VERP addresses"),
                 "description" => __("Whether to generate VERP addresses on send."),
                 "notes" => __("Only applicable when sending via SMTP. [see](https://en.wikipedia.org/wiki/Variable_envelope_return_path), [see](http://www.postfix.org/VERP_README.html)"),
                 "value" => "",
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "AllowEmpty" => array(
+            ],
+            "AllowEmpty" => [
                 "type" => "InputfieldCheckbox",
                 "label" => __("Allow Empty"),
                 "description" => __("Whether to allow sending messages with an empty body."),
                 "value" => false,
                 "collapsed" => Inputfield::collapsedNever
-            ),
-            "DKIM" => array(
+            ],
+            "DKIM" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("DKIM Settings"),
                 "collapsed" => Inputfield::collapsedYes,
-                "children" => array(
-                    "DKIM_selector" => array(
+                "children" => [
+                    "DKIM_selector" => [
                         "type" => "InputfieldText",
                         "label" => __("DKIM selector"),
                         "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
-                    ),
-                    "DKIM_identity" => array(
+                    ],
+                    "DKIM_identity" => [
                         "type" => "InputfieldText",
                         "label" => __("DKIM identity"),
                         "description" => __("Usually the email address used as the source of the email."),
                         "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
-                    ),
-                    "DKIM_passphrase" => array(
+                    ],
+                    "DKIM_passphrase" => [
                         "type" => "InputfieldText",
                         "label" => __("DKIM passphrase"),
                         "description" => __("Used if your key is encrypted."),
                         "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
-                    ),
-                    "DKIM_domain" => array(
+                    ],
+                    "DKIM_domain" => [
                         "type" => "InputfieldText",
                         "label" => __("DKIM domain"),
                         "description" => __("DKIM signing domain name."),
@@ -423,33 +491,161 @@ class WireMailPHPMailerConfig extends ModuleConfig {
                         "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
-                    ),
-                    "DKIM_private" => array(
+                    ],
+                    "DKIM_private" => [
                         "type" => "InputfieldText",
                         "label" => __("DKIM private"),
                         "description" => __("DKIM private key file path."),
                         "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
-                    ),
-                    "DKIM_private_string" => array(
+                    ],
+                    "DKIM_private_string" => [
                         "type" => "InputfieldText",
                         "label" => __("DKIM private string"),
                         "description" => __('If set, takes precedence over `$DKIM_private`.'),
                         "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
-                    )
-                )
-            ),
-            "XMailer" => array(
+                    ]
+                ]
+            ],
+            "XMailer" => [
                 "type" => "InputfieldText",
                 "label" => __("XMailer"),
                 "description" => __("What to put in the X-Mailer header."),
                 "notes" => __("Options: An empty string for PHPMailer default, whitespace for none, or a string to use."),
                 "value" => "",
                 "collapsed" => Inputfield::collapsedNever
-            )
-        ));
+            ]
+        ]);
+    }
+
+    /**
+     * Optional method to process inputs and generate dynamic markup for OAuth2
+     */
+    public function getInputfields(): InputfieldWrapper
+    {
+        $inputfields = parent::getInputfields();
+        $config = $this->wire('config');
+        $input = $this->wire('input');
+        $page = $this->wire('page');
+
+        // Check if OAuth attributes are present
+        $providerName = $this->get('OAuthProvider');
+        $clientId = $this->get('OAuthClientId');
+        $clientSecret = $this->get('OAuthClientSecret');
+        $tenantId = $this->get('OAuthTenantId');
+        
+        $redirectUri = $page->httpUrl() . '?name=WireMailPHPMailer';
+
+        // Check if provider class is available
+        $providerClass = null;
+        $providerObj = null;
+
+        if ($providerName === 'google') {
+            $providerClass = '\\League\\OAuth2\\Client\\Provider\\Google';
+            if (class_exists($providerClass)) {
+                $providerObj = new $providerClass([
+                    'clientId'     => $clientId,
+                    'clientSecret' => $clientSecret,
+                    'redirectUri'  => $redirectUri,
+                    'accessType'   => 'offline'
+                ]);
+            }
+        } elseif ($providerName === 'yahoo') {
+            $providerClass = '\\Hayageek\\OAuth2\\Client\\Provider\\Yahoo';
+            if (class_exists($providerClass)) {
+                $providerObj = new $providerClass([
+                    'clientId'     => $clientId,
+                    'clientSecret' => $clientSecret,
+                    'redirectUri'  => $redirectUri
+                ]);
+            }
+        } elseif ($providerName === 'microsoft') {
+            $providerClass = '\\Stevenmaguire\\OAuth2\\Client\\Provider\\Microsoft';
+            if (class_exists($providerClass)) {
+                $providerObj = new $providerClass([
+                    'clientId'     => $clientId,
+                    'clientSecret' => $clientSecret,
+                    'redirectUri'  => $redirectUri
+                ]);
+            }
+        } elseif ($providerName === 'azure') {
+            $providerClass = '\\Greew\\OAuth2\\Client\\Provider\\Azure';
+            if (class_exists($providerClass)) {
+                $providerObj = new $providerClass([
+                    'clientId'                => $clientId,
+                    'clientSecret'            => $clientSecret,
+                    'redirectUri'             => $redirectUri,
+                    'tenant'                  => $tenantId ?: 'common',
+                    'defaultEndPointVersion'  => '2.0'
+                ]);
+                // Azure needs specific scope for SMTP
+                $providerObj->scope = implode(' ', [
+                    'offline_access',
+                    'https://outlook.office.com/SMTP.Send'
+                ]);
+            }
+        }
+
+        // Process incoming OAuth Code
+        if ($input->get('code') && $providerObj) {
+            try {
+                $token = $providerObj->getAccessToken('authorization_code', [
+                    'code' => $input->get('code')
+                ]);
+                $refreshToken = $token->getRefreshToken();
+                if ($refreshToken) {
+                    $this->message("Successfully generated Refresh Token! Please save the module settings.");
+                    
+                    // Inject into the field
+                    $refreshField = $inputfields->getChildByName('OAuthRefreshToken');
+                    if ($refreshField) {
+                        $refreshField->attr('value', $refreshToken);
+                    }
+                } else {
+                    $this->error("Failed to fetch Refresh Token. The provider did not return one. You might need to re-consent the app.");
+                }
+            } catch (\Exception $e) {
+                $this->error("OAuth Token Error: " . $e->getMessage());
+            }
+        }
+
+        // Generate Markup
+        $markup = $this->wire('modules')->get('InputfieldMarkup');
+        $markup->name = 'OAuthMarkup';
+        $markup->label = __('Authorize Account');
+        
+        if (!$clientId) {
+            $markup->value = "<p>" . __("Please enter your Client ID & Secret, save the settings, and then a button will appear here to authorize the app and generate a refresh token.") . "</p>";
+        } elseif (!$providerObj) {
+            $missingPackages = [
+                'google'    => 'league/oauth2-google',
+                'yahoo'     => 'hayageek/oauth2-yahoo',
+                'microsoft' => 'stevenmaguire/oauth2-microsoft',
+                'azure'     => 'greew/oauth2-azure-provider',
+            ];
+            $packageToInstall = $missingPackages[$providerName] ?? 'unknown/package';
+            $markup->value = "<p class='NoticeError'>" . sprintf(__("OAuth library for %s is not installed! Please run `composer require %s` in your project root."), strtoupper($providerName), $packageToInstall) . "</p>";
+        } else {
+            $options = [];
+            if ($providerName === 'google') {
+                $options = [
+                    'prompt' => 'consent',
+                    'scope' => ['https://mail.google.com/']
+                ];
+            }
+            $authUrl = $providerObj->getAuthorizationUrl($options);
+            $markup->value = "<a href='{$authUrl}' class='ui-button ui-widget ui-corner-all'>" . __("Authorize via ") . ucfirst($providerName) . " & Fetch Refresh Token</a>";
+            $markup->value .= "<p class='notes'>" . __("Clicking this button will take you to the OAuth provider. You will be redirected back here afterwards. Make sure you have added:") . "<br><b>" . htmlentities($redirectUri) . "</b><br>" . __("as an authorized Redirect URI / Reply URL in your app console.") . "</p>";
+        }
+
+        $oauthFieldset = $inputfields->getChildByName('OAuth2');
+        if ($oauthFieldset) {
+            $oauthFieldset->add($markup);
+        }
+
+        return $inputfields;
     }
 }
