@@ -2,7 +2,7 @@ name: "Tag, Release"
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - "WireMailPHPMailer.module.php"
   workflow_dispatch:
