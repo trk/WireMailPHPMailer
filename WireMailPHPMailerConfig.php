@@ -95,14 +95,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                         "value" => false,
                         "collapsed" => Inputfield::collapsedNever
                     ],
-                    "SingleTo" => [
-                        "type" => "InputfieldCheckbox",
-                        "label" => __("Single To"),
-                        "description" => __("Whether to split multiple to addresses into multiple messages or send them all in one message."),
-                        "notes" => __("Only supported in `mail` and `sendmail` transports, not in SMTP."),
-                        "value" => false,
-                        "collapsed" => Inputfield::collapsedNever
-                    ],
+
                 ]
             ],
             "TabRouting" => [
@@ -144,57 +137,8 @@ class WireMailPHPMailerConfig extends ModuleConfig
                         "placeholder" => __("An email subject"),
                         "collapsed" => Inputfield::collapsedNever
                     ],
-                    "Body" => [
-                        "type" => "InputfieldTextarea",
-                        "label" => __("Body"),
-                        "description" => __("An HTML or plain text message body."),
-                        "notes" => __("If HTML then call `isHTML(true)`"),
-                        "value" => "",
-                        "placeholder" => __("Email HTML body"),
-                        "collapsed" => Inputfield::collapsedNever
-                    ],
-                    "AltBody" => [
-                        "type" => "InputfieldTextarea",
-                        "label" => __("Alt Body"),
-                        "description" => __("The plain-text message body. This body can be read by mail clients that do not have HTML email capability."),
-                        "notes" => __("Clients that can read `HTML` will view the normal `Body`."),
-                        "value" => "",
-                        "placeholder" => __("Email TEXT Body"),
-                        "collapsed" => Inputfield::collapsedNever
-                    ],
-                    "ConfirmReadingTo" => [
-                        "type" => "InputfieldCheckbox",
-                        "label" => __("Confirm Reading To"),
-                        "description" => __("The email address that a reading confirmation should be sent to, also known as read receipt."),
-                        "value" => "",
-                        "collapsed" => Inputfield::collapsedNever
-                    ],
-                    "Ical" => [
-                        "type" => "InputfieldText",
-                        "label" => __("iCal"),
-                        "description" => __("An iCal message part body."),
-                        "notes" => __("Only supported in simple alt or alt_inline message types To generate iCal event structures, use classes like EasyPeasyICS or iCalcreator."),
-                        "value" => "",
-                        "collapsed" => Inputfield::collapsedNever
-                    ],
-                    "MessageID" => [
-                        "type" => "InputfieldText",
-                        "label" => __("Message ID"),
-                        "description" => __("An ID to be used in the `Message-ID` header."),
-                        "notes" => __("If empty, a unique id will be generated. You can set your own, but it must be in the format `<id@domain>`, as defined in RFC5322 section 3.6.4 or it will be ignored."),
-                        "value" => "",
-                        "collapsed" => Inputfield::collapsedNever,
-                        "columnWidth" => 50
-                    ],
-                    "MessageDate" => [
-                        "type" => "InputfieldText",
-                        "label" => __("Message Date"),
-                        "description" => __("The message Date to be used in the Date header."),
-                        "notes" => __('If empty, the current date will be added.'),
-                        "value" => "",
-                        "collapsed" => Inputfield::collapsedNever,
-                        "columnWidth" => 50
-                    ],
+
+
                 ]
             ],
             "TabTransport" => [
@@ -315,6 +259,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "description" => __("SMTP username."),
                                 "value" => "",
                                 "columnWidth" => 50,
+                                "showIf" => "SMTPAuth=1",
                                 "collapsed" => Inputfield::collapsedBlank
                             ],
                             "Password" => [
@@ -324,6 +269,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "attr" => [
                                     "type" => "password"
                                 ],
+                                "showIf" => "SMTPAuth=1",
                                 "value" => "",
                                 "columnWidth" => 50,
                                 "collapsed" => Inputfield::collapsedBlank
@@ -334,6 +280,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "description" => __("SMTP auth type."),
                                 "notes" => __("Options are CRAM-MD5, LOGIN, PLAIN, XOAUTH2, attempted in that order if not specified."),
                                 "value" => "",
+                                "showIf" => "SMTPAuth=1",
                                 "options" => [
                                     "" => __("Default"),
                                     "CRAM-MD5" => "CRAM-MD5",
@@ -341,12 +288,13 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                     "PLAIN" => "PLAIN",
                                     "XOAUTH2" => "XOAUTH2"
                                 ],
+                                "columnWidth" => 100,
                                 "collapsed" => Inputfield::collapsedNever
                             ],
                             "OAuth2" => [
                                 "type" => "InputfieldFieldset",
                                 "label" => __("OAuth2 Settings"),
-                                "showIf" => "AuthType=XOAUTH2",
+                                "showIf" => "SMTPAuth=1, AuthType=XOAUTH2",
                                 "collapsed" => Inputfield::collapsedNo,
                                 "children" => [
                                     "OAuthProvider" => [
