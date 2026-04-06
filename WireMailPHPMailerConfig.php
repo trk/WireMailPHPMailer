@@ -510,6 +510,20 @@ class WireMailPHPMailerConfig extends ModuleConfig
                     ],
                 ]
             ],
+            "TabTest" => [
+                "type" => "InputfieldFieldset",
+                "label" => __("Test"),
+                "collapsed" => Inputfield::collapsedYes,
+                "children" => [
+                    "TestEmail" => [
+                        "type" => "InputfieldEmail",
+                        "label" => __("Send a test email to"),
+                        "description" => __("Enter an email address and save the module configuration to send a test email. The address will not be saved."),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -522,6 +536,37 @@ class WireMailPHPMailerConfig extends ModuleConfig
         $input = $this->wire('input');
         $page = $this->wire('page');
 
+        // Handle Test Email
+        if ($input->requestMethod('POST') && $input->post('TestEmail')) {
+            $testEmail = $this->wire('sanitizer')->email($input->post('TestEmail'));
+            if ($testEmail) {
+                try {
+                    $mail = $this->wire('modules')->get('WireMailPHPMailer');
+                    if ($mail) {
+                        $mail->to($testEmail);
+                        $mail->subject('ProcessWire: WireMailPHPMailer Test');
+                        $mail->bodyHTML('<h3>Test successful!</h3><p>If you are reading this, WireMailPHPMailer is configured correctly.</p>');
+                        $mail->body('Test successful! If you are reading this, WireMailPHPMailer is configured correctly.');
+                        
+                        $numSent = $mail->send();
+                        if ($numSent) {
+                            $this->message(sprintf(__("Test email successfully sent to %s"), $testEmail));
+                        } else {
+                            $this->error(sprintf(__("Failed to send test email to %s. Check Tracy Debugger or Error Logs."), $testEmail));
+                        }
+                    }
+                } catch (\Exception $e) {
+                    $this->error("Test email exception: " . $e->getMessage());
+                }
+            }
+            
+            // clear the value from the field so it doesn't get saved/rendered again
+            $testField = $inputfields->getChildByName('TestEmail');
+            if ($testField) {
+                $testField->attr('value', '');
+            }
+        }
+        
         // Check if OAuth attributes are present
         $providerName = $this->get('OAuthProvider');
         $clientId = $this->get('OAuthClientId');
