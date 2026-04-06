@@ -18,195 +18,503 @@ class WireMailPHPMailerConfig extends ModuleConfig
     public function __construct()
     {
         $this->add([
-            "Priority" => [
-                "type" => "InputfieldSelect",
-                "label" => __("Priority"),
-                "description" => __("When null, the header is not set at all."),
-                "required" => true,
-                "value" => "null",
-                "options" => [
-                    "null" => __("Default"),
-                    1 => __("High"),
-                    3 => __("Normal"),
-                    5 => __("Low")
-                ],
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 25
-            ],
-            "CharSet" => [
-                "type" => "InputfieldText",
-                "label" => __("Character set"),
-                "description" => __("The character set of the message."),
-                "value" => "utf-8",
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 25
-            ],
-            "ContentType" => [
-                "type" => "InputfieldSelect",
-                "label" => __("Content-type"),
-                "description" => __("The MIME Content-type of the message."),
-                "required" => true,
-                "value" => "text/html",
-                "options" => [
-                    "text/plain" => "text/plain",
-                    "text/html" => "text/html",
-                    "multipart/related" => "multipart/related",
-                    "multipart/alternative" => "multipart/alternative",
-                    "multipart/mixed" => "multipart/mixed"
-                ],
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 25
-            ],
-            "Encoding" => [
-                "type" => "InputfieldSelect",
-                "label" => __("Encoding"),
-                "description" => __("The message encoding."),
-                "required" => true,
-                "value" => "8bit",
-                "options" => [
-                    "8bit" => "8bit",
-                    "7bit" => "7bit",
-                    "binary" => "binary",
-                    "base64" => "base64",
-                    "quoted-printable" => "quoted-printable"
-                ],
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 25
-            ],
-            "Mailer" => [
-                "type" => "InputfieldSelect",
-                "label" => __("Mailer"),
-                "description" => __("Which method to use to send mail."),
-                "required" => true,
-                "value" => "mail",
-                "options" => [
-                    "mail" => "mail",
-                    "sendmail" => "sendmail",
-                    "smtp" => "smtp"
-                ],
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "SendmailSettings" => [
+            "TabGeneral" => [
                 "type" => "InputfieldFieldset",
-                "label" => __("Sendmail Settings"),
-                "showIf" => "Mailer=sendmail",
-                "collapsed" => Inputfield::collapsedYes,
+                "label" => __("General"),
+                "class" => "WireTab",
                 "children" => [
-                    "Sendmail" => [
-                        "type" => "InputfieldText",
-                        "label" => __("Sendmail"),
-                        "description" => __("The path to the sendmail program."),
-                        "value" => "/usr/sbin/sendmail",
-                        "collapsed" => Inputfield::collapsedNever
-                    ],
-                    "UseSendmailOptions" => [
-                        "type" => "InputfieldCheckbox",
-                        "label" => __("Use Sendmail Options"),
-                        "description" => __("Whether `mail()` uses a fully `sendmail-compatible` MTA."),
-                        "notes" => __("One which supports sendmail's `-oi -f` options."),
-                        "value" => true,
-                        "collapsed" => Inputfield::collapsedNever
-                    ]
-                ]
-            ],
-            "SMTP" => [
-                "type" => "InputfieldFieldset",
-                "label" => __("SMTP Settings"),
-                "showIf" => "Mailer=smtp",
-                "collapsed" => Inputfield::collapsedYes,
-                "children" => [
-                    "Host" => [
-                        "type" => "InputfieldText",
-                        "label" => __("Host"),
-                        "description" => __("SMTP hosts."),
-                        "notes" => __('Either a single hostname or multiple semicolon-delimited hostnames.
-                                You can also specify a different port for each host by using this format: [hostname:port] (e.g. "smtp1.example.com:25;smtp2.example.com").
-                                You can also specify encryption type, for example: (e.g. "tls://smtp1.example.com:587;ssl://smtp2.example.com:465"). Hosts will be tried in order.'),
-                        "value" => "localhost",
-                        "columnWidth" => 50,
-                        "collapsed" => Inputfield::collapsedNever
-                    ],
-                    "Helo" => [
-                        "type" => "InputfieldText",
-                        "label" => __("Helo"),
-                        "description" => __("The SMTP HELO of the message."),
-                        "notes" => __('Default is `$Hostname`. If `$Hostname` is empty, PHPMailer attempts to find one with the same method described above for `$Hostname`.'),
-                        "value" => "",
-                        "columnWidth" => 50,
-                        "collapsed" => Inputfield::collapsedNever
-                    ],
-                    "SMTPSecure" => [
+                    "Priority" => [
                         "type" => "InputfieldSelect",
-                        "label" => __("SMTP Secure"),
-                        "description" => __("What kind of encryption to use on the SMTP connection."),
+                        "label" => __("Priority"),
+                        "description" => __("When null, the header is not set at all."),
                         "required" => true,
-                        "value" => "tls",
+                        "value" => "null",
                         "options" => [
-                            "" => __("Default"),
-                            "ssl" => __("SSL"),
-                            "tls" => __("TLS")
+                            "null" => __("Default"),
+                            1 => __("High"),
+                            3 => __("Normal"),
+                            5 => __("Low")
                         ],
-                        "columnWidth" => 50,
-                        "collapsed" => Inputfield::collapsedNever
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 25
                     ],
-                    "Port" => [
+                    "CharSet" => [
+                        "type" => "InputfieldText",
+                        "label" => __("Character set"),
+                        "description" => __("The character set of the message."),
+                        "value" => "utf-8",
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 25
+                    ],
+                    "ContentType" => [
+                        "type" => "InputfieldSelect",
+                        "label" => __("Content-type"),
+                        "description" => __("The MIME Content-type of the message."),
+                        "required" => true,
+                        "value" => "text/html",
+                        "options" => [
+                            "text/plain" => "text/plain",
+                            "text/html" => "text/html",
+                            "multipart/related" => "multipart/related",
+                            "multipart/alternative" => "multipart/alternative",
+                            "multipart/mixed" => "multipart/mixed"
+                        ],
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 25
+                    ],
+                    "Encoding" => [
+                        "type" => "InputfieldSelect",
+                        "label" => __("Encoding"),
+                        "description" => __("The message encoding."),
+                        "required" => true,
+                        "value" => "8bit",
+                        "options" => [
+                            "8bit" => "8bit",
+                            "7bit" => "7bit",
+                            "binary" => "binary",
+                            "base64" => "base64",
+                            "quoted-printable" => "quoted-printable"
+                        ],
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 25
+                    ],
+                    "WordWrap" => [
                         "type" => "InputfieldInteger",
-                        "label" => __("Port"),
-                        "description" => __("The default SMTP server port."),
+                        "label" => __("WordWrap"),
+                        "description" => __("Word-wrap the message body to this number of chars."),
+                        "notes" => __("Set to 0 to not wrap. A useful value here is 78, for [RFC2822](https://www.ietf.org/rfc/rfc2822.txt) section 2.1.1 compliance."),
+                        "value" => "0",
                         "inputType" => "number",
                         "min" => 0,
-                        "value" => 587,
-                        "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
                     ],
-                    "SMTPAutoTLS" => [
+                    "AllowEmpty" => [
                         "type" => "InputfieldCheckbox",
-                        "label" => __("SMTP Auto TLS"),
-                        "description" => __("Whether to enable SMTP Auto TLS. Note: Read PHPMailer documentation."),
-                        "value" => true,
-                        "collapsed" => Inputfield::collapsedNever
-                    ],
-                    "SMTPAuth" => [
-                        "type" => "InputfieldCheckbox",
-                        "label" => __("SMTP Auth"),
-                        "description" => __("Whether to use SMTP authentication."),
-                        "notes" => __("Uses the Username and Password properties."),
+                        "label" => __("Allow Empty"),
+                        "description" => __("Whether to allow sending messages with an empty body."),
                         "value" => false,
                         "collapsed" => Inputfield::collapsedNever
                     ],
-                    "Username" => [
-                        "type" => "text",
-                        "label" => __("Username"),
-                        "description" => __("SMTP username."),
-                        "value" => "",
-                        "columnWidth" => 50,
+                    "SingleTo" => [
+                        "type" => "InputfieldCheckbox",
+                        "label" => __("Single To"),
+                        "description" => __("Whether to split multiple to addresses into multiple messages or send them all in one message."),
+                        "notes" => __("Only supported in `mail` and `sendmail` transports, not in SMTP."),
+                        "value" => false,
                         "collapsed" => Inputfield::collapsedNever
                     ],
-                    "Password" => [
-                        "type" => "text",
-                        "label" => __("Password"),
-                        "description" => __("SMTP password."),
-                        "attr" => [
-                            "type" => "password"
-                        ],
+                ]
+            ],
+            "TabRouting" => [
+                "type" => "InputfieldFieldset",
+                "label" => __("Routing"),
+                "class" => "WireTab",
+                "children" => [
+                    "Sender" => [
+                        "type" => "InputfieldText",
+                        "label" => __("Sender"),
+                        "description" => __("The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to."),
+                        "notes" => __("If not empty, will be passed via `-f` to sendmail or as the `MAIL FROM` value over SMTP."),
                         "value" => "",
-                        "columnWidth" => 50,
                         "collapsed" => Inputfield::collapsedNever
                     ],
-                    "AuthType" => [
-                        "type" => "select",
-                        "label" => __("Auth Type"),
-                        "description" => __("SMTP auth type."),
-                        "notes" => __("Options are CRAM-MD5, LOGIN, PLAIN, XOAUTH2, attempted in that order if not specified."),
+                    "FromName" => [
+                        "type" => "InputfieldText",
+                        "label" => __("From Name"),
+                        "description" => __("The From name of the message."),
+                        "value" => "Root User",
+                        "placeholder" => __("Site administrator"),
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 50
+                    ],
+                    "From" => [
+                        "type" => "InputfieldText",
+                        "label" => __("From"),
+                        "description" => __("The From email address for the message."),
+                        "value" => "root@localhost",
+                        "placeholder" => "email@domain.ltd",
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 50
+                    ],
+                    "Subject" => [
+                        "type" => "InputfieldText",
+                        "label" => __("Subject"),
+                        "description" => __("The Subject of the message."),
+                        "value" => "",
+                        "placeholder" => __("An email subject"),
+                        "collapsed" => Inputfield::collapsedNever
+                    ],
+                    "Body" => [
+                        "type" => "InputfieldTextarea",
+                        "label" => __("Body"),
+                        "description" => __("An HTML or plain text message body."),
+                        "notes" => __("If HTML then call `isHTML(true)`"),
+                        "value" => "",
+                        "placeholder" => __("Email HTML body"),
+                        "collapsed" => Inputfield::collapsedNever
+                    ],
+                    "AltBody" => [
+                        "type" => "InputfieldTextarea",
+                        "label" => __("Alt Body"),
+                        "description" => __("The plain-text message body. This body can be read by mail clients that do not have HTML email capability."),
+                        "notes" => __("Clients that can read `HTML` will view the normal `Body`."),
+                        "value" => "",
+                        "placeholder" => __("Email TEXT Body"),
+                        "collapsed" => Inputfield::collapsedNever
+                    ],
+                    "ConfirmReadingTo" => [
+                        "type" => "InputfieldCheckbox",
+                        "label" => __("Confirm Reading To"),
+                        "description" => __("The email address that a reading confirmation should be sent to, also known as read receipt."),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever
+                    ],
+                    "Ical" => [
+                        "type" => "InputfieldText",
+                        "label" => __("iCal"),
+                        "description" => __("An iCal message part body."),
+                        "notes" => __("Only supported in simple alt or alt_inline message types To generate iCal event structures, use classes like EasyPeasyICS or iCalcreator."),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever
+                    ],
+                    "MessageID" => [
+                        "type" => "InputfieldText",
+                        "label" => __("Message ID"),
+                        "description" => __("An ID to be used in the `Message-ID` header."),
+                        "notes" => __("If empty, a unique id will be generated. You can set your own, but it must be in the format `<id@domain>`, as defined in RFC5322 section 3.6.4 or it will be ignored."),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 50
+                    ],
+                    "MessageDate" => [
+                        "type" => "InputfieldText",
+                        "label" => __("Message Date"),
+                        "description" => __("The message Date to be used in the Date header."),
+                        "notes" => __('If empty, the current date will be added.'),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 50
+                    ],
+                ]
+            ],
+            "TabTransport" => [
+                "type" => "InputfieldFieldset",
+                "label" => __("Transport"),
+                "class" => "WireTab",
+                "children" => [
+                    "Mailer" => [
+                        "type" => "InputfieldSelect",
+                        "label" => __("Mailer"),
+                        "description" => __("Which method to use to send mail."),
                         "required" => true,
-                        "value" => "",
+                        "value" => "mail",
                         "options" => [
-                            "" => __("Default"),
-                            "CRAM-MD5" => "CRAM-MD5",
-                            "LOGIN" => "LOGIN",
-                            "PLAIN" => "PLAIN",
-                            "XOAUTH2" => "XOAUTH2"
+                            "mail" => "mail",
+                            "sendmail" => "sendmail",
+                            "smtp" => "smtp"
                         ],
+                        "collapsed" => Inputfield::collapsedNever
+                    ],
+                    "SendmailSettings" => [
+                        "type" => "InputfieldFieldset",
+                        "label" => __("Sendmail Settings"),
+                        "showIf" => "Mailer=sendmail",
+                        "collapsed" => Inputfield::collapsedNo,
+                        "children" => [
+                            "Sendmail" => [
+                                "type" => "InputfieldText",
+                                "label" => __("Sendmail Path"),
+                                "description" => __("The path to the sendmail program."),
+                                "value" => "/usr/sbin/sendmail",
+                                "collapsed" => Inputfield::collapsedNever
+                            ],
+                            "UseSendmailOptions" => [
+                                "type" => "InputfieldCheckbox",
+                                "label" => __("Use Sendmail Options"),
+                                "description" => __("Whether `mail()` uses a fully `sendmail-compatible` MTA."),
+                                "notes" => __("One which supports sendmail's `-oi -f` options."),
+                                "value" => true,
+                                "collapsed" => Inputfield::collapsedNever
+                            ]
+                        ]
+                    ],
+                    "SMTP" => [
+                        "type" => "InputfieldFieldset",
+                        "label" => __("SMTP Settings"),
+                        "showIf" => "Mailer=smtp",
+                        "collapsed" => Inputfield::collapsedNo,
+                        "children" => [
+                            "dsn" => [
+                                "type" => "InputfieldText",
+                                "label" => __("DSN"),
+                                "description" => __("A Data Source Name (DSN) string for SMTP setup."),
+                                "notes" => __("Overrides Host, Port, SMTPSecure, Username, Password. e.g. smtps://user:password@smtp.example.com:465"),
+                                "value" => "",
+                                "collapsed" => Inputfield::collapsedBlank,
+                            ],
+                            "Host" => [
+                                "type" => "InputfieldText",
+                                "label" => __("Host"),
+                                "description" => __("SMTP hosts."),
+                                "notes" => __('Either a single hostname or multiple semicolon-delimited hostnames. e.g. "smtp1.example.com;smtp2.example.com".'),
+                                "value" => "localhost",
+                                "columnWidth" => 50,
+                                "collapsed" => Inputfield::collapsedNever
+                            ],
+                            "Helo" => [
+                                "type" => "InputfieldText",
+                                "label" => __("Helo"),
+                                "description" => __("The SMTP HELO of the message."),
+                                "notes" => __('Default is `$Hostname`.'),
+                                "value" => "",
+                                "columnWidth" => 50,
+                                "collapsed" => Inputfield::collapsedNever
+                            ],
+                            "SMTPSecure" => [
+                                "type" => "InputfieldSelect",
+                                "label" => __("SMTP Secure"),
+                                "description" => __("What kind of encryption to use on the SMTP connection."),
+                                "value" => "tls",
+                                "options" => [
+                                    "" => __("Default"),
+                                    "ssl" => __("SSL"),
+                                    "tls" => __("TLS")
+                                ],
+                                "columnWidth" => 33,
+                                "collapsed" => Inputfield::collapsedNever
+                            ],
+                            "Port" => [
+                                "type" => "InputfieldInteger",
+                                "label" => __("Port"),
+                                "description" => __("The default SMTP server port."),
+                                "inputType" => "number",
+                                "min" => 0,
+                                "value" => 587,
+                                "columnWidth" => 34,
+                                "collapsed" => Inputfield::collapsedNever
+                            ],
+                            "SMTPAutoTLS" => [
+                                "type" => "InputfieldCheckbox",
+                                "label" => __("SMTP Auto TLS"),
+                                "description" => __("Whether to enable SMTP Auto TLS."),
+                                "value" => true,
+                                "columnWidth" => 33,
+                                "collapsed" => Inputfield::collapsedNever
+                            ],
+                            "SMTPAuth" => [
+                                "type" => "InputfieldCheckbox",
+                                "label" => __("SMTP Auth"),
+                                "description" => __("Whether to use SMTP authentication."),
+                                "notes" => __("Uses the Username and Password properties."),
+                                "value" => false,
+                                "collapsed" => Inputfield::collapsedNever
+                            ],
+                            "Username" => [
+                                "type" => "InputfieldText",
+                                "label" => __("Username"),
+                                "description" => __("SMTP username."),
+                                "value" => "",
+                                "columnWidth" => 50,
+                                "collapsed" => Inputfield::collapsedBlank
+                            ],
+                            "Password" => [
+                                "type" => "InputfieldText",
+                                "label" => __("Password"),
+                                "description" => __("SMTP password."),
+                                "attr" => [
+                                    "type" => "password"
+                                ],
+                                "value" => "",
+                                "columnWidth" => 50,
+                                "collapsed" => Inputfield::collapsedBlank
+                            ],
+                            "AuthType" => [
+                                "type" => "InputfieldSelect",
+                                "label" => __("Auth Type"),
+                                "description" => __("SMTP auth type."),
+                                "notes" => __("Options are CRAM-MD5, LOGIN, PLAIN, XOAUTH2, attempted in that order if not specified."),
+                                "value" => "",
+                                "options" => [
+                                    "" => __("Default"),
+                                    "CRAM-MD5" => "CRAM-MD5",
+                                    "LOGIN" => "LOGIN",
+                                    "PLAIN" => "PLAIN",
+                                    "XOAUTH2" => "XOAUTH2"
+                                ],
+                                "collapsed" => Inputfield::collapsedNever
+                            ],
+                            "OAuth2" => [
+                                "type" => "InputfieldFieldset",
+                                "label" => __("OAuth2 Settings"),
+                                "showIf" => "AuthType=XOAUTH2",
+                                "collapsed" => Inputfield::collapsedNo,
+                                "children" => [
+                                    "OAuthProvider" => [
+                                        "type" => "InputfieldSelect",
+                                        "label" => __("OAuth Provider"),
+                                        "description" => __("Select the OAuth2 provider. Make sure the corresponding provider library is installed via Composer."),
+                                        "required" => true,
+                                        "value" => "google",
+                                        "options" => [
+                                            "google" => __("Google"),
+                                            "yahoo" => __("Yahoo"),
+                                            "microsoft" => __("Microsoft"),
+                                            "azure" => __("Microsoft Azure (Greew)")
+                                        ],
+                                        "collapsed" => Inputfield::collapsedNever,
+                                        "columnWidth" => 50
+                                    ],
+                                    "OAuthEmail" => [
+                                        "type" => "InputfieldText",
+                                        "label" => __("OAuth Email"),
+                                        "description" => __("The email address of the account you are authorizing."),
+                                        "value" => "",
+                                        "collapsed" => Inputfield::collapsedNever,
+                                        "columnWidth" => 50
+                                    ],
+                                    "OAuthClientId" => [
+                                        "type" => "InputfieldText",
+                                        "label" => __("Client ID"),
+                                        "description" => __("The Client ID from your OAuth provider."),
+                                        "value" => "",
+                                        "collapsed" => Inputfield::collapsedNever,
+                                        "columnWidth" => 50
+                                    ],
+                                    "OAuthClientSecret" => [
+                                        "type" => "InputfieldText",
+                                        "label" => __("Client Secret"),
+                                        "description" => __("The Client Secret from your OAuth provider. Not required for Azure if using delegated permissions for public clients, but typically needed."),
+                                        "value" => "",
+                                        "collapsed" => Inputfield::collapsedNever,
+                                        "columnWidth" => 50
+                                    ],
+                                    "OAuthTenantId" => [
+                                        "type" => "InputfieldText",
+                                        "label" => __("Tenant ID (Azure Only)"),
+                                        "description" => __("The Tenant ID from Microsoft Azure."),
+                                        "showIf" => "OAuthProvider=azure",
+                                        "value" => "",
+                                        "collapsed" => Inputfield::collapsedNever,
+                                        "columnWidth" => 100
+                                    ],
+                                    "OAuthRefreshToken" => [
+                                        "type" => "InputfieldText",
+                                        "label" => __("Refresh Token"),
+                                        "description" => __("The Refresh Token. Once obtained, it is saved here automatically."),
+                                        "value" => "",
+                                        "collapsed" => Inputfield::collapsedNever,
+                                    ]
+                                ]
+                            ],
+                            "SMTPKeepAlive" => [
+                                "type" => "InputfieldCheckbox",
+                                "label" => __("SMTP Keep Alive"),
+                                "description" => __("Whether to keep SMTP connection open after each message."),
+                                "notes" => __("If this is set to true then to close the connection requires an explicit call to `smtpClose()`."),
+                                "value" => false,
+                                "collapsed" => Inputfield::collapsedNever
+                            ],
+                            "do_verp" => [
+                                "type" => "InputfieldCheckbox",
+                                "label" => __("Generate VERP addresses"),
+                                "description" => __("Whether to generate VERP addresses on send."),
+                                "notes" => __("Only applicable when sending via SMTP. [see](https://en.wikipedia.org/wiki/Variable_envelope_return_path), [see](http://www.postfix.org/VERP_README.html)"),
+                                "value" => "",
+                                "collapsed" => Inputfield::collapsedNever
+                            ],
+                        ]
+                    ]
+                ]
+            ],
+            "TabDKIM" => [
+                "type" => "InputfieldFieldset",
+                "label" => __("DKIM"),
+                "class" => "WireTab",
+                "children" => [
+                    "DKIM_domain" => [
+                        "type" => "InputfieldText",
+                        "label" => __("DKIM domain"),
+                        "description" => __("DKIM signing domain name."),
+                        "notes" => __("example: `example.com`"),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 50
+                    ],
+                    "DKIM_identity" => [
+                        "type" => "InputfieldText",
+                        "label" => __("DKIM identity"),
+                        "description" => __("Usually the email address used as the source of the email."),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 50
+                    ],
+                    "DKIM_selector" => [
+                        "type" => "InputfieldText",
+                        "label" => __("DKIM selector"),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 50
+                    ],
+                    "DKIM_passphrase" => [
+                        "type" => "InputfieldText",
+                        "label" => __("DKIM passphrase"),
+                        "description" => __("Used if your key is encrypted."),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 50
+                    ],
+                    "DKIM_private" => [
+                        "type" => "InputfieldText",
+                        "label" => __("DKIM private"),
+                        "description" => __("DKIM private key file path."),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 50
+                    ],
+                    "DKIM_private_string" => [
+                        "type" => "InputfieldText",
+                        "label" => __("DKIM private string"),
+                        "description" => __('If set, takes precedence over `$DKIM_private`.'),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever,
+                        "columnWidth" => 50
+                    ],
+                    "DKIM_copyHeaderFields" => [
+                        "type" => "InputfieldCheckbox",
+                        "label" => __("DKIM copyHeaderFields"),
+                        "description" => __("Whether to include the 'z' tag in the DKIM signature."),
+                        "notes" => __("Only use this for debugging as it adds size to the signature and could be abused. See PHPMailer source for details."),
+                        "value" => false,
+                        "collapsed" => Inputfield::collapsedNever,
+                    ],
+                ]
+            ],
+            "TabAdvanced" => [
+                "type" => "InputfieldFieldset",
+                "label" => __("Advanced & Debug"),
+                "class" => "WireTab",
+                "children" => [
+                    "Hostname" => [
+                        "type" => "InputfieldText",
+                        "label" => __("Hostname"),
+                        "description" => __("The hostname to use in the `Message-ID` header and as default `HELO` string."),
+                        "notes" => __('If empty, PHPMailer attempts to find one automatically.'),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever
+                    ],
+                    "XMailer" => [
+                        "type" => "InputfieldText",
+                        "label" => __("XMailer"),
+                        "description" => __("What to put in the X-Mailer header."),
+                        "notes" => __("Options: An empty string for PHPMailer default, whitespace for none, or a string to use."),
+                        "value" => "",
+                        "collapsed" => Inputfield::collapsedNever
+                    ],
+                    "UseSMTPUTF8" => [
+                        "type" => "InputfieldCheckbox",
+                        "label" => __("Use SMTP UTF8"),
+                        "description" => __("Enable SMTP UTF8 support (SMTPUTF8 extension)."),
+                        "value" => false,
                         "collapsed" => Inputfield::collapsedNever
                     ],
                     "Timeout" => [
@@ -248,276 +556,8 @@ class WireMailPHPMailerConfig extends ModuleConfig
                         ],
                         "collapsed" => Inputfield::collapsedNever
                     ],
-                    "SMTPKeepAlive" => [
-                        "type" => "InputfieldCheckbox",
-                        "label" => __("SMTP Keep Alive"),
-                        "description" => __("Whether to keep SMTP connection open after each message."),
-                        "notes" => __("If this is set to true then to close the connection requires an explicit call to `smtpClose()`."),
-                        "value" => false,
-                        "collapsed" => Inputfield::collapsedNever
-                    ]
-            ]
-        ],
-        "OAuth2" => [
-            "type" => "InputfieldFieldset",
-            "label" => __("OAuth2 Settings"),
-            "showIf" => "Mailer=smtp, AuthType=XOAUTH2",
-            "collapsed" => Inputfield::collapsedNo,
-            "children" => [
-                "OAuthProvider" => [
-                    "type" => "InputfieldSelect",
-                    "label" => __("OAuth Provider"),
-                    "description" => __("Select the OAuth2 provider. Make sure the corresponding provider library is installed via Composer."),
-                    "required" => true,
-                    "value" => "google",
-                    "options" => [
-                        "google" => __("Google"),
-                        "yahoo" => __("Yahoo"),
-                        "microsoft" => __("Microsoft"),
-                        "azure" => __("Microsoft Azure (Greew)")
-                    ],
-                    "collapsed" => Inputfield::collapsedNever,
-                    "columnWidth" => 50
-                ],
-                "OAuthEmail" => [
-                    "type" => "InputfieldText",
-                    "label" => __("OAuth Email"),
-                    "description" => __("The email address of the account you are authorizing."),
-                    "value" => "",
-                    "collapsed" => Inputfield::collapsedNever,
-                    "columnWidth" => 50
-                ],
-                "OAuthClientId" => [
-                    "type" => "InputfieldText",
-                    "label" => __("Client ID"),
-                    "description" => __("The Client ID from your OAuth provider."),
-                    "value" => "",
-                    "collapsed" => Inputfield::collapsedNever,
-                    "columnWidth" => 50
-                ],
-                "OAuthClientSecret" => [
-                    "type" => "InputfieldText",
-                    "label" => __("Client Secret"),
-                    "description" => __("The Client Secret from your OAuth provider. Not required for Azure if using delegated permissions for public clients, but typically needed."),
-                    "value" => "",
-                    "collapsed" => Inputfield::collapsedNever,
-                    "columnWidth" => 50
-                ],
-                "OAuthTenantId" => [
-                    "type" => "InputfieldText",
-                    "label" => __("Tenant ID (Azure Only)"),
-                    "description" => __("The Tenant ID from Microsoft Azure."),
-                    "showIf" => "OAuthProvider=azure",
-                    "value" => "",
-                    "collapsed" => Inputfield::collapsedNever,
-                    "columnWidth" => 100
-                ],
-                "OAuthRefreshToken" => [
-                    "type" => "InputfieldText",
-                    "label" => __("Refresh Token"),
-                    "description" => __("The Refresh Token. Once obtained, it is saved here automatically."),
-                    "value" => "",
-                    "collapsed" => Inputfield::collapsedNever,
-                ]
-            ]
-        ],
-        "Sender" => [
-                "type" => "InputfieldText",
-                "label" => __("Sender"),
-                "description" => __("The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to."),
-                "notes" => __("If not empty, will be passed via `-f` to sendmail or as the `MAIL FROM` value over SMTP."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "FromName" => [
-                "type" => "InputfieldText",
-                "label" => __("From Name"),
-                "description" => __("The From name of the message."),
-                "value" => "Root User",
-                "placeholder" => __("Site administrator"),
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 50
-            ],
-            "From" => [
-                "type" => "InputfieldText",
-                "label" => __("From"),
-                "description" => __("The From email address for the message."),
-                "value" => "root@localhost",
-                "placeholder" => "email@domain.ltd",
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 50
-            ],
-            "Subject" => [
-                "type" => "InputfieldText",
-                "label" => __("Subject"),
-                "description" => __("The Subject of the message."),
-                "value" => "",
-                "placeholder" => __("An email subject"),
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "Body" => [
-                "type" => "InputfieldTextarea",
-                "label" => __("Body"),
-                "description" => __("An HTML or plain text message body."),
-                "notes" => __("If HTML then call `isHTML(true)`"),
-                "value" => "",
-                "placeholder" => __("Email HTML body"),
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "AltBody" => [
-                "type" => "InputfieldTextarea",
-                "label" => __("Alt Body"),
-                "description" => __("The plain-text message body. This body can be read by mail clients that do not have HTML email capability such as mutt & Eudora."),
-                "notes" => __("Clients that can read `HTML` will view the normal `Body`."),
-                "value" => "",
-                "placeholder" => __("Email TEXT Body"),
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "ConfirmReadingTo" => [
-                "type" => "InputfieldCheckbox",
-                "label" => __("Confirm Reading To"),
-                "description" => __("The email address that a reading confirmation should be sent to, also known as read receipt."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "ErrorInfo" => [
-                "type" => "InputfieldText",
-                "label" => __("Error Info"),
-                "description" => __("Holds the most recent mailer error message."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 100
-            ],
-            "Ical" => [
-                "type" => "InputfieldText",
-                "label" => __("iCal"),
-                "description" => __("An iCal message part body."),
-                "notes" => __("Only supported in simple alt or alt_inline message types To generate iCal event structures, use classes like EasyPeasyICS or iCalcreator."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "WordWrap" => [
-                "type" => "InputfieldInteger",
-                "label" => __("WordWrap"),
-                "description" => __("Word-wrap the message body to this number of chars."),
-                "notes" => __("Set to 0 to not wrap. A useful value here is 78, for [RFC2822](https://www.ietf.org/rfc/rfc2822.txt) section 2.1.1 compliance."),
-                "value" => "0",
-                "inputType" => "number",
-                "min" => 0,
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "Hostname" => [
-                "type" => "InputfieldText",
-                "label" => __("Hostname"),
-                "description" => __("The hostname to use in the `Message-ID` header and as default `HELO` string."),
-                "notes" => __('If empty, PHPMailer attempts to find one with, in order, `$_SERVER["SERVER_NAME"]`, `gethostname()`, `php_uname("n")`, or the value `localhost.localdomain`'),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "MessageID" => [
-                "type" => "InputfieldText",
-                "label" => __("Message ID"),
-                "description" => __("An ID to be used in the `Message-ID` header."),
-                "notes" => __("If empty, a unique id will be generated. You can set your own, but it must be in the format `<id@domain>`, as defined in RFC5322 section 3.6.4 or it will be ignored."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 50
-            ],
-            "MessageDate" => [
-                "type" => "InputfieldText",
-                "label" => __("Message Date"),
-                "description" => __("The message Date to be used in the Date header."),
-                "notes" => __('If empty, the current date will be added.'),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever,
-                "columnWidth" => 50
-            ],
-            "SingleTo" => [
-                "type" => "InputfieldCheckbox",
-                "label" => __("Single To"),
-                "description" => __("Whether to split multiple to addresses into multiple messages or send them all in one message."),
-                "notes" => __("Only supported in `mail` and `sendmail` transports, not in SMTP."),
-                "value" => false,
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "do_verp" => [
-                "type" => "InputfieldCheckbox",
-                "label" => __("Generate VERP addresses"),
-                "description" => __("Whether to generate VERP addresses on send."),
-                "notes" => __("Only applicable when sending via SMTP. [see](https://en.wikipedia.org/wiki/Variable_envelope_return_path), [see](http://www.postfix.org/VERP_README.html)"),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "AllowEmpty" => [
-                "type" => "InputfieldCheckbox",
-                "label" => __("Allow Empty"),
-                "description" => __("Whether to allow sending messages with an empty body."),
-                "value" => false,
-                "collapsed" => Inputfield::collapsedNever
-            ],
-            "DKIM" => [
-                "type" => "InputfieldFieldset",
-                "label" => __("DKIM Settings"),
-                "collapsed" => Inputfield::collapsedYes,
-                "children" => [
-                    "DKIM_selector" => [
-                        "type" => "InputfieldText",
-                        "label" => __("DKIM selector"),
-                        "value" => "",
-                        "collapsed" => Inputfield::collapsedNever,
-                        "columnWidth" => 50
-                    ],
-                    "DKIM_identity" => [
-                        "type" => "InputfieldText",
-                        "label" => __("DKIM identity"),
-                        "description" => __("Usually the email address used as the source of the email."),
-                        "value" => "",
-                        "collapsed" => Inputfield::collapsedNever,
-                        "columnWidth" => 50
-                    ],
-                    "DKIM_passphrase" => [
-                        "type" => "InputfieldText",
-                        "label" => __("DKIM passphrase"),
-                        "description" => __("Used if your key is encrypted."),
-                        "value" => "",
-                        "collapsed" => Inputfield::collapsedNever,
-                        "columnWidth" => 50
-                    ],
-                    "DKIM_domain" => [
-                        "type" => "InputfieldText",
-                        "label" => __("DKIM domain"),
-                        "description" => __("DKIM signing domain name."),
-                        "notes" => __("example: `example.com`"),
-                        "value" => "",
-                        "collapsed" => Inputfield::collapsedNever,
-                        "columnWidth" => 50
-                    ],
-                    "DKIM_private" => [
-                        "type" => "InputfieldText",
-                        "label" => __("DKIM private"),
-                        "description" => __("DKIM private key file path."),
-                        "value" => "",
-                        "collapsed" => Inputfield::collapsedNever,
-                        "columnWidth" => 50
-                    ],
-                    "DKIM_private_string" => [
-                        "type" => "InputfieldText",
-                        "label" => __("DKIM private string"),
-                        "description" => __('If set, takes precedence over `$DKIM_private`.'),
-                        "value" => "",
-                        "collapsed" => Inputfield::collapsedNever,
-                        "columnWidth" => 50
-                    ]
                 ]
             ],
-            "XMailer" => [
-                "type" => "InputfieldText",
-                "label" => __("XMailer"),
-                "description" => __("What to put in the X-Mailer header."),
-                "notes" => __("Options: An empty string for PHPMailer default, whitespace for none, or a string to use."),
-                "value" => "",
-                "collapsed" => Inputfield::collapsedNever
-            ]
         ]);
     }
 
@@ -527,7 +567,6 @@ class WireMailPHPMailerConfig extends ModuleConfig
     public function getInputfields(): InputfieldWrapper
     {
         $inputfields = parent::getInputfields();
-        $config = $this->wire('config');
         $input = $this->wire('input');
         $page = $this->wire('page');
 
@@ -581,7 +620,6 @@ class WireMailPHPMailerConfig extends ModuleConfig
                     'tenant'                  => $tenantId ?: 'common',
                     'defaultEndPointVersion'  => '2.0'
                 ]);
-                // Azure needs specific scope for SMTP
                 $providerObj->scope = implode(' ', [
                     'offline_access',
                     'https://outlook.office.com/SMTP.Send'
@@ -599,7 +637,6 @@ class WireMailPHPMailerConfig extends ModuleConfig
                 if ($refreshToken) {
                     $this->message("Successfully generated Refresh Token! Please save the module settings.");
                     
-                    // Inject into the field
                     $refreshField = $inputfields->getChildByName('OAuthRefreshToken');
                     if ($refreshField) {
                         $refreshField->attr('value', $refreshToken);
