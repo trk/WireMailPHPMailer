@@ -21,6 +21,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
             "TabGeneral" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("General"),
+                "collapsed" => Inputfield::collapsedYes,
                 "children" => [
                     "Priority" => [
                         "type" => "InputfieldSelect",
@@ -100,6 +101,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
             "TabRouting" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("Routing"),
+                "collapsed" => Inputfield::collapsedYes,
                 "children" => [
                     "Sender" => [
                         "type" => "InputfieldText",
@@ -142,6 +144,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
             "TabTransport" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("Transport"),
+                "collapsed" => Inputfield::collapsedYes,
                 "children" => [
                     "Mailer" => [
                         "type" => "InputfieldSelect",
@@ -160,7 +163,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                         "type" => "InputfieldFieldset",
                         "label" => __("Sendmail Settings"),
                         "showIf" => "Mailer=sendmail",
-                        "collapsed" => Inputfield::collapsedNo,
+                        "collapsed" => Inputfield::collapsedYes,
                         "children" => [
                             "Sendmail" => [
                                 "type" => "InputfieldText",
@@ -183,7 +186,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                         "type" => "InputfieldFieldset",
                         "label" => __("SMTP Settings"),
                         "showIf" => "Mailer=smtp",
-                        "collapsed" => Inputfield::collapsedNo,
+                        "collapsed" => Inputfield::collapsedYes,
                         "children" => [
                             "dsn" => [
                                 "type" => "InputfieldText",
@@ -292,7 +295,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "type" => "InputfieldFieldset",
                                 "label" => __("OAuth2 Settings"),
                                 "showIf" => "SMTPAuth=1, AuthType=XOAUTH2",
-                                "collapsed" => Inputfield::collapsedNo,
+                                "collapsed" => Inputfield::collapsedYes,
                                 "children" => [
                                     "OAuthProvider" => [
                                         "type" => "InputfieldSelect",
@@ -374,6 +377,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
             "TabDKIM" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("DKIM"),
+                "collapsed" => Inputfield::collapsedYes,
                 "children" => [
                     "DKIM_domain" => [
                         "type" => "InputfieldText",
@@ -436,6 +440,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
             "TabAdvanced" => [
                 "type" => "InputfieldFieldset",
                 "label" => __("Advanced & Debug"),
+                "collapsed" => Inputfield::collapsedYes,
                 "children" => [
                     "Hostname" => [
                         "type" => "InputfieldText",
