@@ -203,6 +203,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "notes" => __('Either a single hostname or multiple semicolon-delimited hostnames. e.g. "smtp1.example.com;smtp2.example.com".'),
                                 "value" => "localhost",
                                 "columnWidth" => 50,
+                                "showIf" => "dsn=''",
                                 "collapsed" => Inputfield::collapsedNever
                             ],
                             "Helo" => [
@@ -225,6 +226,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                     "tls" => __("TLS")
                                 ],
                                 "columnWidth" => 33,
+                                "showIf" => "dsn=''",
                                 "collapsed" => Inputfield::collapsedNever
                             ],
                             "Port" => [
@@ -235,6 +237,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "min" => 0,
                                 "value" => 587,
                                 "columnWidth" => 34,
+                                "showIf" => "dsn=''",
                                 "collapsed" => Inputfield::collapsedNever
                             ],
                             "SMTPAutoTLS" => [
@@ -251,6 +254,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "description" => __("Whether to use SMTP authentication."),
                                 "notes" => __("Uses the Username and Password properties."),
                                 "value" => false,
+                                "showIf" => "dsn=''",
                                 "collapsed" => Inputfield::collapsedNever
                             ],
                             "Username" => [
@@ -259,7 +263,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "description" => __("SMTP username."),
                                 "value" => "",
                                 "columnWidth" => 50,
-                                "showIf" => "SMTPAuth=1",
+                                "showIf" => "SMTPAuth=1, dsn=''",
                                 "collapsed" => Inputfield::collapsedBlank
                             ],
                             "Password" => [
@@ -269,7 +273,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "attr" => [
                                     "type" => "password"
                                 ],
-                                "showIf" => "SMTPAuth=1",
+                                "showIf" => "SMTPAuth=1, AuthType!=XOAUTH2, dsn=''",
                                 "value" => "",
                                 "columnWidth" => 50,
                                 "collapsed" => Inputfield::collapsedBlank
@@ -280,7 +284,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "description" => __("SMTP auth type."),
                                 "notes" => __("Options are CRAM-MD5, LOGIN, PLAIN, XOAUTH2, attempted in that order if not specified."),
                                 "value" => "",
-                                "showIf" => "SMTPAuth=1",
+                                "showIf" => "SMTPAuth=1, dsn=''",
                                 "options" => [
                                     "" => __("Default"),
                                     "CRAM-MD5" => "CRAM-MD5",
@@ -294,7 +298,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                             "OAuth2" => [
                                 "type" => "InputfieldFieldset",
                                 "label" => __("OAuth2 Settings"),
-                                "showIf" => "SMTPAuth=1, AuthType=XOAUTH2",
+                                "showIf" => "SMTPAuth=1, AuthType=XOAUTH2, dsn=''",
                                 "collapsed" => Inputfield::collapsedYes,
                                 "children" => [
                                     "OAuthProvider" => [
