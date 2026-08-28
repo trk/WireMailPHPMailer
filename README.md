@@ -67,6 +67,7 @@ The module provides an extensive settings page in the ProcessWire admin (`Module
 
 - **Transport method:** SMTP, Sendmail, or native `mail()`
 - **SMTP credentials:** Host, Port, Username, Password, AutoTLS (enabled by default)
+- **SMTP via DSN:** A single Data Source Name string (e.g., `smtps://user:password@smtp.example.com:465`) that overrides Host/Port/SMTPSecure/Username/Password. Powered by PHPMailer's native DSNConfigurator.
 - **Encryption:** SSL / TLS
 - **Authentication Types:** LOGIN, PLAIN, CRAM-MD5, and native **XOAUTH2** support.
 - **DKIM Signing:** Domain, Identity, Selector, Path to Private Key

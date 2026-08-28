@@ -17,9 +17,9 @@
     }
   ],
   "require": {
-    "php": ">=7.0",
+    "php": ">=8.0",
     "hari/pw-module": "~1.0",
-    "phpmailer/phpmailer": "^7.0"
+    "phpmailer/phpmailer": "^7.1"
   },
   "suggest": {
     "league/oauth2-google": "Required for Google XOAUTH2 authentication.",

@@ -6,6 +6,7 @@ namespace ProcessWire;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\DSNConfigurator;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -45,8 +46,8 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     public static function getModuleInfo(): array
     {
         return [
-            'title' => 'WireMailPHPMailer', 
-            'version' => 144,
+            'title' => 'WireMailPHPMailer',
+            'version' => 145,
             'summary' => __('This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.'),
             'href' => 'https://github.com/trk/WireMailPHPMailer',
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com',
@@ -132,70 +133,81 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     {
         $data = $this->getArray();
 
+        $smtpDsn = '';
+        if (isset($data['dsn']) && is_string($data['dsn']) && $data['dsn'] !== '') {
+            $smtpDsn = $data['dsn'];
+            unset($data['dsn']);
+        }
+
         if (isset($data['Mailer']) && $data['Mailer'] === 'smtp') {
             $instance->isSMTP();
-            
+
+            if ($smtpDsn !== '') {
+                $configurator = new DSNConfigurator();
+                $instance = $configurator->configure($instance, $smtpDsn);
+            }
+
             if (isset($data['AuthType']) && $data['AuthType'] === 'XOAUTH2') {
-            $providerName = $data['OAuthProvider'] ?? '';
-            $clientId = $data['OAuthClientId'] ?? '';
-            $clientSecret = $data['OAuthClientSecret'] ?? '';
-            $tenantId = $data['OAuthTenantId'] ?? 'common';
-            $refreshToken = $data['OAuthRefreshToken'] ?? '';
-            $email = $data['OAuthEmail'] ?? '';
+                $providerName = $data['OAuthProvider'] ?? '';
+                $clientId = $data['OAuthClientId'] ?? '';
+                $clientSecret = $data['OAuthClientSecret'] ?? '';
+                $tenantId = $data['OAuthTenantId'] ?? 'common';
+                $refreshToken = $data['OAuthRefreshToken'] ?? '';
+                $email = $data['OAuthEmail'] ?? '';
 
-            $providerClass = null;
-            $providerObj = null;
+                $providerClass = null;
+                $providerObj = null;
 
-            if ($providerName === 'google') {
-                $providerClass = '\\League\\OAuth2\\Client\\Provider\\Google';
-                if (class_exists($providerClass)) {
-                    $providerObj = new $providerClass([
-                        'clientId'     => $clientId,
-                        'clientSecret' => $clientSecret,
-                    ]);
+                if ($providerName === 'google') {
+                    $providerClass = '\\League\\OAuth2\\Client\\Provider\\Google';
+                    if (class_exists($providerClass)) {
+                        $providerObj = new $providerClass([
+                            'clientId'     => $clientId,
+                            'clientSecret' => $clientSecret,
+                        ]);
+                    }
+                } elseif ($providerName === 'yahoo') {
+                    $providerClass = '\\Hayageek\\OAuth2\\Client\\Provider\\Yahoo';
+                    if (class_exists($providerClass)) {
+                        $providerObj = new $providerClass([
+                            'clientId'     => $clientId,
+                            'clientSecret' => $clientSecret,
+                        ]);
+                    }
+                } elseif ($providerName === 'microsoft') {
+                    $providerClass = '\\Stevenmaguire\\OAuth2\\Client\\Provider\\Microsoft';
+                    if (class_exists($providerClass)) {
+                        $providerObj = new $providerClass([
+                            'clientId'     => $clientId,
+                            'clientSecret' => $clientSecret,
+                        ]);
+                    }
+                } elseif ($providerName === 'azure') {
+                    $providerClass = '\\Greew\\OAuth2\\Client\\Provider\\Azure';
+                    if (class_exists($providerClass)) {
+                        $providerObj = new $providerClass([
+                            'clientId'               => $clientId,
+                            'clientSecret'           => $clientSecret,
+                            'tenant'                 => $tenantId ?: 'common',
+                            'defaultEndPointVersion' => '2.0',
+                        ]);
+                    }
                 }
-            } elseif ($providerName === 'yahoo') {
-                $providerClass = '\\Hayageek\\OAuth2\\Client\\Provider\\Yahoo';
-                if (class_exists($providerClass)) {
-                    $providerObj = new $providerClass([
-                        'clientId'     => $clientId,
-                        'clientSecret' => $clientSecret,
-                    ]);
-                }
-            } elseif ($providerName === 'microsoft') {
-                $providerClass = '\\Stevenmaguire\\OAuth2\\Client\\Provider\\Microsoft';
-                if (class_exists($providerClass)) {
-                    $providerObj = new $providerClass([
-                        'clientId'     => $clientId,
-                        'clientSecret' => $clientSecret,
-                    ]);
-                }
-            } elseif ($providerName === 'azure') {
-                $providerClass = '\\Greew\\OAuth2\\Client\\Provider\\Azure';
-                if (class_exists($providerClass)) {
-                    $providerObj = new $providerClass([
-                        'clientId'               => $clientId,
-                        'clientSecret'           => $clientSecret,
-                        'tenant'                 => $tenantId ?: 'common',
-                        'defaultEndPointVersion' => '2.0',
-                    ]);
+
+                if ($providerObj !== null && class_exists('\\PHPMailer\\PHPMailer\\OAuth')) {
+                    $instance->setOAuth(
+                        new \PHPMailer\PHPMailer\OAuth([
+                            'provider'     => $providerObj,
+                            'clientId'     => $clientId,
+                            'clientSecret' => $clientSecret,
+                            'refreshToken' => $refreshToken,
+                            'userName'     => $email,
+                        ])
+                    );
+                } elseif ($providerObj === null) {
+                    wireLog('WireMailPHPMailer', "OAuth provider library for '{$providerName}' not found. Please install it via Composer. XOAUTH2 may fail.");
                 }
             }
-
-            if ($providerObj !== null && class_exists('\\PHPMailer\\PHPMailer\\OAuth')) {
-                $instance->setOAuth(
-                    new \PHPMailer\PHPMailer\OAuth([
-                        'provider'     => $providerObj,
-                        'clientId'     => $clientId,
-                        'clientSecret' => $clientSecret,
-                        'refreshToken' => $refreshToken,
-                        'userName'     => $email,
-                    ])
-                );
-            } elseif ($providerObj === null) {
-                wireLog('WireMailPHPMailer', "OAuth provider library for '{$providerName}' not found. Please install it via Composer. XOAUTH2 may fail.");
-            }
-        }
         }
 
         // set module configs
