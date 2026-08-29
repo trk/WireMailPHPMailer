@@ -20,18 +20,13 @@ require_once __DIR__ . "/vendor/autoload.php";
 class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
 {
     /**
-     * @var PHPMailer|null
-     */
-    protected ?PHPMailer $instance = null;
-
-    /**
      * @var array
      */
     protected array $options = [];
 
     protected const COMPATIBILITY = [
-        'from' => 'From',
-        'fromName' => 'FromName',
+        'from' => 'setFrom',
+        'fromName' => 'setFrom',
         'subject' => 'Subject',
         'body' => 'AltBody',
         'bodyHTML' => 'Body'
@@ -47,7 +42,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     {
         return [
             'title' => 'WireMailPHPMailer',
-            'version' => 145,
+            'version' => 146,
             'summary' => __('This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.'),
             'href' => 'https://github.com/trk/WireMailPHPMailer',
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com',
@@ -64,7 +59,17 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     public function __get($key): mixed
     {
         if (isset(self::COMPATIBILITY[$key])) {
-            return $this->{self::COMPATIBILITY[$key]};
+            $map = self::COMPATIBILITY[$key];
+            if ($map === 'setFrom') {
+                if ($key === 'from') {
+                    return $this->options['setFrom']['address'] ?? parent::__get($key);
+                }
+                return $this->options['setFrom']['name'] ?? parent::__get($key);
+            }
+            if ($map === 'Body') {
+                return $this->options['msgHTML']['message'] ?? parent::__get($key);
+            }
+            return $this->options[$map] ?? parent::__get($key);
         }
         return parent::__get($key);
     }
@@ -120,6 +125,44 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
         }
 
         return $instance;
+    }
+
+    /**
+     * Cast a config value according to its expected PHPMailer type
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return mixed
+     */
+    private function castConfigValue(string $key, mixed $value): mixed
+    {
+        $intKeys = ['WordWrap', 'Port', 'Timeout', 'SMTPDebug'];
+        if (in_array($key, $intKeys, true)) {
+            return is_numeric($value) ? (int)$value : 0;
+        }
+
+        $boolKeys = [
+            'SMTPAutoTLS',
+            'SMTPAuth',
+            'SMTPKeepAlive',
+            'do_verp',
+            'UseSendmailOptions',
+            'AllowEmpty',
+            'UseSMTPUTF8',
+            'DKIM_copyHeaderFields'
+        ];
+        if (in_array($key, $boolKeys, true)) {
+            if (is_bool($value)) return $value;
+            if ($value === '1' || $value === 1 || $value === 'true') return true;
+            return false;
+        }
+
+        if ($key === 'Priority') {
+            if ($value === 'null' || $value === null || $value === '') return null;
+            return is_numeric($value) ? (int)$value : null;
+        }
+
+        return $value;
     }
 
     /**
@@ -204,15 +247,17 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
                             'userName'     => $email,
                         ])
                     );
-                } elseif ($providerObj === null) {
+                } elseif ($providerObj === null && $providerName !== '') {
                     wireLog('WireMailPHPMailer', "OAuth provider library for '{$providerName}' not found. Please install it via Composer. XOAUTH2 may fail.");
                 }
             }
         }
 
-        // set module configs
         foreach ($data as $key => $value) {
-            $instance->set((string)$key, $value);
+            if ($value === '' && !in_array($key, ['CharSet', 'ContentType', 'Encoding', 'XMailer', 'Hostname'], true)) {
+                continue;
+            }
+            $instance->set((string)$key, $this->castConfigValue((string)$key, $value));
         }
 
         return $instance;
@@ -360,7 +405,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
      */
     public function parseAddresses(string $addrstr, bool $useimap = true): array
     {
-        return PHPMailer::parseAddresses($addrstr);
+        return PHPMailer::parseAddresses($addrstr, $useimap);
     }
 
     // ------------------------------------------------------------------------
@@ -372,7 +417,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
      * @param string $name
      * @param bool $auto
      * @return $this
-     * @throws Exception
      */
     public function setFrom(string $address, string $name = '', bool $auto = true): self
     {
@@ -417,7 +461,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
      * @param string $type
      * @param string $disposition
      * @return $this
-     * @throws Exception
      */
     public function addAttachment(string $path, string $name = '', string $encoding = 'base64', string $type = '', string $disposition = 'attachment'): self
     {
@@ -442,10 +485,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
      */
     public function attachment($value, $filename = '')
     {
-        if ($value !== null) {
-            $this->addAttachment((string)$value, (string)$filename);
-        }
-
         return parent::attachment($value, $filename);
     }
 
@@ -455,7 +494,6 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
      * Send the email
      *
      * @return int Returns the number of successfully sent messages
-     * @throws Exception
      */
     public function ___send(): int
     {
@@ -468,53 +506,34 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
                 }
             }
 
-            if (!empty($this->bodyHTML)) {
-                $this->options['Body'] = $this->bodyHTML;
-            }
-
-            if (!empty($this->body)) {
-                $this->AltBody($this->body);
-            }
-
             if (is_array($this->mail)) {
+                $toNameList = $this->mail['toName'] ?? null;
+
                 foreach ($this->mail as $key => $value) {
                     if ($key === 'to') {
                         if (is_array($value)) {
+                            $names = is_array($toNameList) ? $toNameList : [];
                             foreach ($value as $i => $e) {
-                                $toNameList = $this->mail['toName'] ?? [];
-                                $n = (is_array($toNameList) && isset($toNameList[$i])) ? $toNameList[$i] : (is_string($toNameList) ? $toNameList : '');
-                                $this->addAddress((string)$e, (string)$n);
+                                $n = isset($names[$i]) ? (string)$names[$i] : '';
+                                $this->addAddress((string)$e, $n);
                             }
                         } else {
-                            $toNameList = $this->mail['toName'] ?? '';
                             $n = is_string($toNameList) ? $toNameList : '';
                             $this->addAddress((string)$value, $n);
                         }
-                    }
-
-                    if ($key === 'from') {
+                    } elseif ($key === 'from') {
                         $fromName = isset($this->mail['fromName']) ? (string)$this->mail['fromName'] : '';
                         $this->setFrom((string)$value, $fromName);
-                    }
-
-                    if ($key === 'replyTo') {
+                    } elseif ($key === 'replyTo') {
                         $replyToName = isset($this->mail['replyToName']) ? (string)$this->mail['replyToName'] : '';
                         $this->addReplyTo((string)$value, $replyToName);
-                    }
-
-                    if ($key === 'subject') {
-                        $this->addSubject((string)($this->mail['subject'] ?? ''));
-                    }
-
-                    if ($key === 'bodyHTML') {
+                    } elseif ($key === 'subject') {
+                        $this->addSubject((string)$value);
+                    } elseif ($key === 'bodyHTML') {
                         $this->options['Body'] = (string)$value;
-                    }
-
-                    if ($key === 'body') {
+                    } elseif ($key === 'body') {
                         $this->AltBody((string)$value);
-                    }
-
-                    if ($key === 'attachments' && is_array($value)) {
+                    } elseif ($key === 'attachments' && is_array($value)) {
                         foreach ($value as $filename => $file) {
                             $this->addAttachment((string)$file, (string)$filename);
                         }
@@ -527,13 +546,18 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
 
             if ($result) {
                 wireLog('WireMailPHPMailer', $this->_('Message has been sent.'));
-                $count = is_array($this->options['addAddress'] ?? null) ? count($this->options['addAddress']) : 1;
+                $count = is_array($this->options['addAddress']) ? count($this->options['addAddress']) : 0;
                 return $count > 0 ? $count : 1;
             }
 
-            return 0;
-        } catch (Exception $e) {
             wireLog('WireMailPHPMailer', $this->_('Message could not be sent. Mailer Error:') . ' ' . $instance->ErrorInfo);
+            return 0;
+        } catch (\Throwable $e) {
+            $error = $e->getMessage();
+            if (isset($instance) && $instance->ErrorInfo) {
+                $error = $instance->ErrorInfo;
+            }
+            wireLog('WireMailPHPMailer', $this->_('Message could not be sent. Mailer Error:') . ' ' . $error);
             return 0;
         }
     }
