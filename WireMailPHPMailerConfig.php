@@ -104,7 +104,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                 "collapsed" => Inputfield::collapsedYes,
                 "children" => [
                     "Sender" => [
-                        "type" => "InputfieldText",
+                        "type" => "InputfieldEmail",
                         "label" => __("Sender"),
                         "description" => __("The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to."),
                         "notes" => __("If not empty, will be passed via `-f` to sendmail or as the `MAIL FROM` value over SMTP."),
@@ -115,16 +115,16 @@ class WireMailPHPMailerConfig extends ModuleConfig
                         "type" => "InputfieldText",
                         "label" => __("From Name"),
                         "description" => __("The From name of the message."),
-                        "value" => "Root User",
+                        "value" => "",
                         "placeholder" => __("Site administrator"),
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
                     ],
                     "From" => [
-                        "type" => "InputfieldText",
+                        "type" => "InputfieldEmail",
                         "label" => __("From"),
                         "description" => __("The From email address for the message."),
-                        "value" => "root@localhost",
+                        "value" => "",
                         "placeholder" => "email@domain.ltd",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
@@ -213,6 +213,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                 "notes" => __('Default is `$Hostname`.'),
                                 "value" => "",
                                 "columnWidth" => 50,
+                                "showIf" => "dsn=''",
                                 "collapsed" => Inputfield::collapsedNever
                             ],
                             "SMTPSecure" => [
@@ -317,7 +318,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                         "columnWidth" => 50
                                     ],
                                     "OAuthEmail" => [
-                                        "type" => "InputfieldText",
+                                        "type" => "InputfieldEmail",
                                         "label" => __("OAuth Email"),
                                         "description" => __("The email address of the account you are authorizing."),
                                         "value" => "",
@@ -336,6 +337,9 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                         "type" => "InputfieldText",
                                         "label" => __("Client Secret"),
                                         "description" => __("The Client Secret from your OAuth provider. Not required for Azure if using delegated permissions for public clients, but typically needed."),
+                                        "attr" => [
+                                            "type" => "password"
+                                        ],
                                         "value" => "",
                                         "collapsed" => Inputfield::collapsedNever,
                                         "columnWidth" => 50
@@ -353,6 +357,9 @@ class WireMailPHPMailerConfig extends ModuleConfig
                                         "type" => "InputfieldText",
                                         "label" => __("Refresh Token"),
                                         "description" => __("The Refresh Token. Once obtained, it is saved here automatically."),
+                                        "attr" => [
+                                            "type" => "password"
+                                        ],
                                         "value" => "",
                                         "collapsed" => Inputfield::collapsedNever,
                                     ]
@@ -411,6 +418,9 @@ class WireMailPHPMailerConfig extends ModuleConfig
                         "type" => "InputfieldText",
                         "label" => __("DKIM passphrase"),
                         "description" => __("Used if your key is encrypted."),
+                        "attr" => [
+                            "type" => "password"
+                        ],
                         "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
@@ -427,6 +437,9 @@ class WireMailPHPMailerConfig extends ModuleConfig
                         "type" => "InputfieldText",
                         "label" => __("DKIM private string"),
                         "description" => __('If set, takes precedence over `$DKIM_private`.'),
+                        "attr" => [
+                            "type" => "password"
+                        ],
                         "value" => "",
                         "collapsed" => Inputfield::collapsedNever,
                         "columnWidth" => 50
@@ -547,7 +560,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                         $mail->subject('ProcessWire: WireMailPHPMailer Test');
                         $mail->bodyHTML('<h3>Test successful!</h3><p>If you are reading this, WireMailPHPMailer is configured correctly.</p>');
                         $mail->body('Test successful! If you are reading this, WireMailPHPMailer is configured correctly.');
-                        
+
                         $numSent = $mail->send();
                         if ($numSent) {
                             $this->message(sprintf(__("Test email successfully sent to %s"), $testEmail));
@@ -559,20 +572,20 @@ class WireMailPHPMailerConfig extends ModuleConfig
                     $this->error("Test email exception: " . $e->getMessage());
                 }
             }
-            
+
             // clear the value from the field so it doesn't get saved/rendered again
             $testField = $inputfields->getChildByName('TestEmail');
             if ($testField) {
                 $testField->attr('value', '');
             }
         }
-        
+
         // Check if OAuth attributes are present
         $providerName = $this->get('OAuthProvider');
         $clientId = $this->get('OAuthClientId');
         $clientSecret = $this->get('OAuthClientSecret');
         $tenantId = $this->get('OAuthTenantId');
-        
+
         $redirectUri = $page->httpUrl() . '?name=WireMailPHPMailer';
 
         // Check if provider class is available
@@ -633,7 +646,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
                 $refreshToken = $token->getRefreshToken();
                 if ($refreshToken) {
                     $this->message("Successfully generated Refresh Token! Please save the module settings.");
-                    
+
                     $refreshField = $inputfields->getChildByName('OAuthRefreshToken');
                     if ($refreshField) {
                         $refreshField->attr('value', $refreshToken);
@@ -650,7 +663,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
         $markup = $this->wire('modules')->get('InputfieldMarkup');
         $markup->name = 'OAuthMarkup';
         $markup->label = __('Authorize Account');
-        
+
         if (!$clientId) {
             $markup->value = "<p>" . __("Please enter your Client ID & Secret, save the settings, and then a button will appear here to authorize the app and generate a refresh token.") . "</p>";
         } elseif (!$providerObj) {
