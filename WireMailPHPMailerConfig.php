@@ -545,9 +545,20 @@ class WireMailPHPMailerConfig extends ModuleConfig
      */
     public function getInputfields(): InputfieldWrapper
     {
-        $inputfields = parent::getInputfields();
         $input = $this->wire('input');
         $page = $this->wire('page');
+
+        // Capture OAuth values BEFORE calling parent::getInputfields() because
+        // ProcessWire ConfigurableModule's parent method reloads every field
+        // value from its config-array defaults (which are "") which would wipe
+        // out the saved values for OAuth fields that drive UI visibility below.
+        $providerName = (string)($this->data['OAuthProvider'] ?? $this->get('OAuthProvider'));
+        $clientId     = (string)($this->data['OAuthClientId'] ?? $this->get('OAuthClientId'));
+        $clientSecret = (string)($this->data['OAuthClientSecret'] ?? $this->get('OAuthClientSecret'));
+        $tenantId     = (string)($this->data['OAuthTenantId'] ?? $this->get('OAuthTenantId'));
+        $redirectUri  = $page->httpUrl() . '?name=WireMailPHPMailer';
+
+        $inputfields = parent::getInputfields();
 
         // Handle Test Email
         if ($input->requestMethod('POST') && $input->post('TestEmail')) {
@@ -580,62 +591,16 @@ class WireMailPHPMailerConfig extends ModuleConfig
             }
         }
 
-        // Check if OAuth attributes are present
-        $providerName = $this->get('OAuthProvider');
-        $clientId = $this->get('OAuthClientId');
-        $clientSecret = $this->get('OAuthClientSecret');
-        $tenantId = $this->get('OAuthTenantId');
-
-        $redirectUri = $page->httpUrl() . '?name=WireMailPHPMailer';
-
-        // Check if provider class is available
-        $providerClass = null;
-        $providerObj = null;
-
-        if ($providerName === 'google') {
-            $providerClass = '\\League\\OAuth2\\Client\\Provider\\Google';
-            if (class_exists($providerClass)) {
-                $providerObj = new $providerClass([
-                    'clientId'     => $clientId,
-                    'clientSecret' => $clientSecret,
-                    'redirectUri'  => $redirectUri,
-                    'accessType'   => 'offline'
-                ]);
-            }
-        } elseif ($providerName === 'yahoo') {
-            $providerClass = '\\Hayageek\\OAuth2\\Client\\Provider\\Yahoo';
-            if (class_exists($providerClass)) {
-                $providerObj = new $providerClass([
-                    'clientId'     => $clientId,
-                    'clientSecret' => $clientSecret,
-                    'redirectUri'  => $redirectUri
-                ]);
-            }
-        } elseif ($providerName === 'microsoft') {
-            $providerClass = '\\Stevenmaguire\\OAuth2\\Client\\Provider\\Microsoft';
-            if (class_exists($providerClass)) {
-                $providerObj = new $providerClass([
-                    'clientId'     => $clientId,
-                    'clientSecret' => $clientSecret,
-                    'redirectUri'  => $redirectUri
-                ]);
-            }
-        } elseif ($providerName === 'azure') {
-            $providerClass = '\\Greew\\OAuth2\\Client\\Provider\\Azure';
-            if (class_exists($providerClass)) {
-                $providerObj = new $providerClass([
-                    'clientId'                => $clientId,
-                    'clientSecret'            => $clientSecret,
-                    'redirectUri'             => $redirectUri,
-                    'tenant'                  => $tenantId ?: 'common',
-                    'defaultEndPointVersion'  => '2.0'
-                ]);
-                $providerObj->scope = implode(' ', [
-                    'offline_access',
-                    'https://outlook.office.com/SMTP.Send'
-                ]);
-            }
-        }
+        // Build the provider via the shared centralized helper so the runtime
+        // mailer and the config UI always use the exact same constructor args
+        // (tenantId key, endpoint versions, FQCNs, etc).
+        $providerObj = \WireMailPHPMailer::getProvider(
+            $providerName,
+            $clientId,
+            $clientSecret,
+            $redirectUri,
+            $tenantId
+        );
 
         // Process incoming OAuth Code
         if ($input->get('code') && $providerObj) {

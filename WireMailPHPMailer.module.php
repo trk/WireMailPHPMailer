@@ -42,7 +42,7 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     {
         return [
             'title' => 'WireMailPHPMailer',
-            'version' => 146,
+            'version' => 147,
             'summary' => __('This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.'),
             'href' => 'https://github.com/trk/WireMailPHPMailer',
             'author' => 'İskender TOTOĞLU | @ukyo(community), @trk (Github), https://www.altivebir.com',
@@ -166,6 +166,87 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
     }
 
     /**
+     * Map a provider slug to its FQCN and constructor options
+     *
+     * Centralizes provider configuration so WireMailPHPMailer and WireMailPHPMailerConfig
+     * construct OAuth2 providers consistently. Returns null when the provider library
+     * is not installed.
+     *
+     * Supported $providerName values: 'google', 'yahoo', 'microsoft', 'azure'
+     *
+     * @param string $providerName  Provider slug from module config
+     * @param string $clientId      OAuth Client ID
+     * @param string $clientSecret  OAuth Client Secret
+     * @param string $redirectUri   Authorization redirect URI (only needed for authorization flows)
+     * @param string $tenantId      Azure/Microsoft tenant ID (fallback: 'common')
+     * @param array  $extra         Additional overrides merged into constructor args
+     * @return object|null          Provider instance or null when library missing / invalid slug
+     */
+    public static function getProvider(
+        string $providerName,
+        string $clientId,
+        string $clientSecret,
+        string $redirectUri = '',
+        string $tenantId = 'common',
+        array $extra = []
+    ): ?object {
+        if ($clientId === '' || $clientSecret === '' || $providerName === '') {
+            return null;
+        }
+
+        $common = [
+            'clientId'     => $clientId,
+            'clientSecret' => $clientSecret,
+        ];
+
+        switch ($providerName) {
+            case 'google':
+                $class = '\\League\\OAuth2\\Client\\Provider\\Google';
+                if (!class_exists($class)) return null;
+                $args = $common + [
+                    'redirectUri' => $redirectUri,
+                    'accessType'  => 'offline',
+                ];
+                break;
+
+            case 'yahoo':
+                $class = '\\Hayageek\\OAuth2\\Client\\Provider\\Yahoo';
+                if (!class_exists($class)) return null;
+                $args = $common + [
+                    'redirectUri' => $redirectUri,
+                ];
+                break;
+
+            case 'microsoft':
+                $class = '\\Stevenmaguire\\OAuth2\\Client\\Provider\\Microsoft';
+                if (!class_exists($class)) return null;
+                $args = $common + [
+                    'redirectUri' => $redirectUri,
+                ];
+                break;
+
+            case 'azure':
+                $class = '\\Greew\\OAuth2\\Client\\Provider\\Azure';
+                if (!class_exists($class)) return null;
+                $args = $common + [
+                    'redirectUri'             => $redirectUri,
+                    'tenantId'                => $tenantId !== '' ? $tenantId : 'common',
+                    'defaultEndPointVersion'  => '2.0',
+                ];
+                break;
+
+            default:
+                return null;
+        }
+
+        if ($extra !== []) {
+            $args = array_replace($args, $extra);
+        }
+
+        return new $class($args);
+    }
+
+    /**
      * Apply module settings
      *
      * @param PHPMailer $instance
@@ -191,51 +272,20 @@ class WireMailPHPMailer extends WireMail implements Module, ConfigurableModule
             }
 
             if (isset($data['AuthType']) && $data['AuthType'] === 'XOAUTH2') {
-                $providerName = $data['OAuthProvider'] ?? '';
-                $clientId = $data['OAuthClientId'] ?? '';
-                $clientSecret = $data['OAuthClientSecret'] ?? '';
-                $tenantId = $data['OAuthTenantId'] ?? 'common';
-                $refreshToken = $data['OAuthRefreshToken'] ?? '';
-                $email = $data['OAuthEmail'] ?? '';
+                $providerName = (string)($data['OAuthProvider'] ?? '');
+                $clientId     = (string)($data['OAuthClientId'] ?? '');
+                $clientSecret = (string)($data['OAuthClientSecret'] ?? '');
+                $tenantId     = (string)($data['OAuthTenantId'] ?? '');
+                $refreshToken = (string)($data['OAuthRefreshToken'] ?? '');
+                $email        = (string)($data['OAuthEmail'] ?? '');
 
-                $providerClass = null;
-                $providerObj = null;
-
-                if ($providerName === 'google') {
-                    $providerClass = '\\League\\OAuth2\\Client\\Provider\\Google';
-                    if (class_exists($providerClass)) {
-                        $providerObj = new $providerClass([
-                            'clientId'     => $clientId,
-                            'clientSecret' => $clientSecret,
-                        ]);
-                    }
-                } elseif ($providerName === 'yahoo') {
-                    $providerClass = '\\Hayageek\\OAuth2\\Client\\Provider\\Yahoo';
-                    if (class_exists($providerClass)) {
-                        $providerObj = new $providerClass([
-                            'clientId'     => $clientId,
-                            'clientSecret' => $clientSecret,
-                        ]);
-                    }
-                } elseif ($providerName === 'microsoft') {
-                    $providerClass = '\\Stevenmaguire\\OAuth2\\Client\\Provider\\Microsoft';
-                    if (class_exists($providerClass)) {
-                        $providerObj = new $providerClass([
-                            'clientId'     => $clientId,
-                            'clientSecret' => $clientSecret,
-                        ]);
-                    }
-                } elseif ($providerName === 'azure') {
-                    $providerClass = '\\Greew\\OAuth2\\Client\\Provider\\Azure';
-                    if (class_exists($providerClass)) {
-                        $providerObj = new $providerClass([
-                            'clientId'               => $clientId,
-                            'clientSecret'           => $clientSecret,
-                            'tenant'                 => $tenantId ?: 'common',
-                            'defaultEndPointVersion' => '2.0',
-                        ]);
-                    }
-                }
+                $providerObj = self::getProvider(
+                    $providerName,
+                    $clientId,
+                    $clientSecret,
+                    '',
+                    $tenantId
+                );
 
                 if ($providerObj !== null && class_exists('\\PHPMailer\\PHPMailer\\OAuth')) {
                     $instance->setOAuth(
