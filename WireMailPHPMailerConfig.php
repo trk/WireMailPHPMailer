@@ -591,16 +591,16 @@ class WireMailPHPMailerConfig extends ModuleConfig
             }
         }
 
-        // Build the provider via the shared centralized helper so the runtime
-        // mailer and the config UI always use the exact same constructor args
-        // (tenantId key, endpoint versions, FQCNs, etc).
-        $providerObj = \WireMailPHPMailer::getProvider(
-            $providerName,
-            $clientId,
-            $clientSecret,
-            $redirectUri,
-            $tenantId
-        );
+        $mailModule = $this->wire('modules')->get('WireMailPHPMailer');
+        $providerObj = $mailModule instanceof WireMailPHPMailer
+            ? $mailModule::getProvider(
+                $providerName,
+                $clientId,
+                $clientSecret,
+                $redirectUri,
+                $tenantId
+            )
+            : null;
 
         // Process incoming OAuth Code
         if ($input->get('code') && $providerObj) {
