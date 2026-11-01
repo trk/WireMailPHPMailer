@@ -4,8 +4,8 @@ A robust, modern integration of the popular [PHPMailer](https://github.com/PHPMa
 
 ## Requirements
 
-- **ProcessWire:** `3.0.0` or newer
-- **PHP:** `8.0` or newer (Strict Types enforced)
+- **ProcessWire:** `3.0.210` or newer
+- **PHP:** `8.4` or newer (Strict Types enforced)
 
 ## Installation
 
@@ -25,39 +25,39 @@ You can use the module through the standard ProcessWire `WireMail` API or access
 This approach seamlessly integrates into existing ProcessWire core API workflows.
 
 ```php
-$mail = wire('modules')->get('WireMailPHPMailer');
+$mail = $this->wire()->mail->new();
 
 $mail->from('from@example.com')
-     ->fromName('Sender Name')
-     ->to('to@example.com')
-     ->subject('Your Subject Here')
-     ->body('This is the plain-text message body.')
-     ->bodyHTML('<h1>This is the HTML message body</h1>')
-     ->send();
+	->fromName('Sender Name')
+	->to('to@example.com')
+	->cc('cc@example.com')
+	->bcc('bcc@example.com')
+	->subject('Your Subject Here')
+	->body('This is the plain-text message body.')
+	->bodyHTML('<h1>This is the HTML message body</h1>')
+	->send();
 ```
 
 ### 2. The Native PHPMailer Way
 
-If you need advanced configuration, attachments, or specific PHPMailer features, you can interact with the instance directly.
+If you need advanced configuration, inline embeds, or specific PHPMailer features, you can interact with the `PHPMailer` instance directly.
 
 ```php
 /** @var WireMailPHPMailer $wireMail */
-$wireMail = wire('modules')->get('WireMailPHPMailer');
+$wireMail = $this->wire()->modules->get('WireMailPHPMailer');
 
-// Retrieve the initialized PHPMailer instance 
-// (passing `false` skips loading the module configurations if needed)
 $mail = $wireMail->getInstance();
 
 $mail->addAddress('email@domain.ltd', 'Recipient Name');
 $mail->isHTML(true);
 $mail->Subject = 'Advanced PHPMailer Usage';
-$mail->Body    = '<h1>Hello World</h1><p>ProcessWire + PHPMailer</p>';
+$mail->Body = '<h1>Hello World</h1><p>ProcessWire + PHPMailer</p>';
 $mail->AltBody = 'Hello World - ProcessWire + PHPMailer';
 
 if ($mail->send()) {
-    echo "Message has been sent.";
+	echo 'Message has been sent.';
 } else {
-    echo "Message could not be sent. Mailer Error: " . $mail->ErrorInfo;
+	echo 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo;
 }
 ```
 
@@ -71,7 +71,7 @@ The module provides an extensive settings page in the ProcessWire admin (`Module
 - **Encryption:** SSL / TLS
 - **Authentication Types:** LOGIN, PLAIN, CRAM-MD5, and native **XOAUTH2** support.
 - **DKIM Signing:** Domain, Identity, Selector, Path to Private Key
-- **Global Defaults:** Default Sender (`From`/`FromName`), Reply-To, and Bcc tracking.
+- **Global Defaults:** Default Envelope Sender (`Sender`), From (`From`/`FromName`), and Subject (`Subject`).
 
 ## XOAUTH2 (Google, Microsoft, Yahoo, Azure) Support
 
