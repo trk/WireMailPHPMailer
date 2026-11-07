@@ -3,7 +3,7 @@
         'name' => 'trk/processwire-php-mailer',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'ebbe2b2aa01dd54502d71be11b3f50448f35f442',
+        'reference' => 'd139c404cd7e01a83aea5d166d9efe5bf7efd79d',
         'type' => 'pw-module',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -31,7 +31,7 @@
         'trk/processwire-php-mailer' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'ebbe2b2aa01dd54502d71be11b3f50448f35f442',
+            'reference' => 'd139c404cd7e01a83aea5d166d9efe5bf7efd79d',
             'type' => 'pw-module',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

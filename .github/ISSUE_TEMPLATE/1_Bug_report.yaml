@@ -1,13 +1,21 @@
 name: 🐛 Bug Report
-description: ⚠️ NEVER report security issues, directly pm to me
-labels: Bug
+description: ⚠️ NEVER report security issues publicly, please contact us directly
+labels: ["bug"]
 
 body:
   - type: input
     id: affected-versions
     attributes:
       label: Version(s) affected
-      placeholder: x.y.z
+      placeholder: 1.5.1
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment (ProcessWire & PHP version)
+      description: Specify your ProcessWire version, PHP version, and whether multi-language support is installed
+      placeholder: ProcessWire 3.0.275, PHP 8.5, single-language
     validations:
       required: true
   - type: textarea
@@ -22,9 +30,9 @@ body:
     attributes:
       label: How to reproduce
       description: |
-        ⚠️  This is the most important part of the report ⚠️
+        ⚠️ This is the most important part of the report ⚠️
         Without a way to easily reproduce your issue, there is little chance we will be able to help you and work on a fix.
-        Please, take the time to show us some code and/or config that is needed for others to reproduce the problem easily.
+        Please take the time to share the steps, code, or configuration needed to reproduce the problem.
     validations:
       required: true
   - type: textarea
@@ -32,7 +40,7 @@ body:
     attributes:
       label: Possible Solution
       description: |
-        Optional: only if you have suggestions on a fix/reason for the bug
+        Optional: only if you have suggestions on a fix/reason for the bug.
         Don't hesitate to create a pull request with your solution, it helps get faster feedback.
   - type: textarea
     id: additional-context
