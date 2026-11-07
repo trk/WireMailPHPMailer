@@ -592,7 +592,7 @@ class WireMailPHPMailerConfig extends ModuleConfig
 			return;
 		}
 
-		$this->wire()->addHookAfter('Modules::saveConfig', function (HookEvent $event) use ($testEmail): void {
+		$this->wire()->addHookAfter('Modules::saveConfig', function (HookEvent $event) use ($testEmail, $sanitizer): void {
 			$moduleName = (string) $event->arguments(0);
 			if ($moduleName !== 'WireMailPHPMailer') {
 				return;
@@ -608,10 +608,12 @@ class WireMailPHPMailerConfig extends ModuleConfig
 					if (is_array($savedData)) {
 						$mail->setArray($savedData);
 					}
+					$heading = $this->_('Test successful!');
+					$body = $this->_('If you are reading this, WireMailPHPMailer is configured correctly.');
 					$mail->to($testEmail)
-						->subject($this->_('ProcessWire: WireMailPHPMailer Test'))
-						->bodyHTML($this->_('<h3>Test successful!</h3><p>If you are reading this, WireMailPHPMailer is configured correctly.</p>'))
-						->body($this->_('Test successful! If you are reading this, WireMailPHPMailer is configured correctly.'));
+						->subject($sanitizer->unentities($this->_('ProcessWire: WireMailPHPMailer Test')))
+						->bodyHTML('<h3>' . $sanitizer->entities1($heading) . '</h3><p>' . $sanitizer->entities1($body) . '</p>')
+						->body($sanitizer->unentities($heading . ' ' . $body));
 
 					$numSent = $mail->send();
 					if ($numSent > 0) {
