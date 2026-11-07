@@ -6,18 +6,49 @@ body:
   - type: input
     id: affected-versions
     attributes:
-      label: Version(s) affected
+      label: Module version(s) affected
       placeholder: 1.5.1
     validations:
       required: true
   - type: input
-    id: environment
+    id: processwire-version
     attributes:
-      label: Environment (ProcessWire & PHP version)
-      description: Specify your ProcessWire version, PHP version, and whether multi-language support is installed
-      placeholder: ProcessWire 3.0.275, PHP 8.5, single-language
+      label: ProcessWire version
+      placeholder: 3.0.275
     validations:
       required: true
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP version
+      placeholder: 8.5.12
+    validations:
+      required: true
+  - type: dropdown
+    id: database
+    attributes:
+      label: Database driver
+      options:
+        - MySQL / MariaDB
+        - SQLite
+        - PostgreSQL
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: database-version
+    attributes:
+      label: Database version
+      placeholder: e.g. MySQL 8.4, MariaDB 11.4, SQLite 3.46, PostgreSQL 17
+    validations:
+      required: false
+  - type: checkboxes
+    id: multi-language
+    attributes:
+      label: Multi-language
+      options:
+        - label: Multi-language support (LanguageSupport) is installed
+          required: false
   - type: textarea
     id: description
     attributes:
