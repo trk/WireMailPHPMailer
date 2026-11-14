@@ -1,35 +1,35 @@
 {
-	"name": "trk/processwire-php-mailer",
-	"description": "This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.",
-	"type": "pw-module",
-	"keywords": [
-		"processwire",
-		"mailer",
-		"php-mailer"
-	],
-	"homepage": "https://github.com/trk/WireMailPHPMailer",
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Iskender TOTOGLU",
-			"email": "iskender@totoglu.com",
-			"homepage": "https://totoglu.com/"
-		}
-	],
-	"require": {
-		"php": ">=8.4",
-		"hari/pw-module": "~1.0",
-		"phpmailer/phpmailer": "^7.1"
-	},
-	"suggest": {
-		"league/oauth2-google": "Required for Google XOAUTH2 authentication.",
-		"hayageek/oauth2-yahoo": "Required for Yahoo XOAUTH2 authentication.",
-		"stevenmaguire/oauth2-microsoft": "Required for Microsoft XOAUTH2 authentication.",
-		"greew/oauth2-azure-provider": "Required for Microsoft Azure XOAUTH2 authentication."
-	},
-	"config": {
-		"allow-plugins": {
-			"hari/pw-module": true
-		}
-	}
+  "name": "trk/processwire-php-mailer",
+  "description": "This module extends WireMail base class, integrating the PHPMailer mailing library into ProcessWire.",
+  "type": "pw-module",
+  "keywords": [
+    "processwire",
+    "mailer",
+    "php-mailer"
+  ],
+  "homepage": "https://github.com/trk/WireMailPHPMailer",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Iskender TOTOGLU",
+      "email": "iskender@totoglu.com",
+      "homepage": "https://totoglu.com/"
+    }
+  ],
+  "require": {
+    "php": ">=8.4",
+    "hari/pw-module": "~1.0",
+    "phpmailer/phpmailer": "^7.2"
+  },
+  "suggest": {
+    "league/oauth2-google": "Required for Google XOAUTH2 authentication.",
+    "hayageek/oauth2-yahoo": "Required for Yahoo XOAUTH2 authentication.",
+    "stevenmaguire/oauth2-microsoft": "Required for Microsoft XOAUTH2 authentication.",
+    "greew/oauth2-azure-provider": "Required for Microsoft Azure XOAUTH2 authentication."
+  },
+  "config": {
+    "allow-plugins": {
+      "hari/pw-module": true
+    }
+  }
 }
