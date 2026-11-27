@@ -1,0 +1,20 @@
+{
+  "label": "WireMailPHPMailer",
+  "moduleSecretKeys": {
+    "WireMailPHPMailer": [
+      "Password",
+      "dsn",
+      "OAuthClientSecret",
+      "OAuthRefreshToken",
+      "DKIM_private",
+      "DKIM_private_string",
+      "DKIM_passphrase"
+    ]
+  },
+  "warnings": [
+    {
+      "severity": "warning",
+      "message": "WireMailPHPMailer SMTP passwords, DSN credentials, OAuth secrets, and DKIM private keys are automatically scrubbed during export."
+    }
+  ]
+}
